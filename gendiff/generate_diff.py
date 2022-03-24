@@ -11,8 +11,10 @@ def generate_diff(file_path1, file_path2):
     for key in keys:
         if key in data_first_file:
             prefix = "-"
-            if (key in data_second_file and
-                    data_first_file[key] == data_second_file[key]):
+            if (
+                key in data_second_file
+                and data_first_file[key] == data_second_file[key]
+            ):
                 prefix = ' '
             answer += f'  {prefix} {key}: {data_first_file[key]}\n'
         if key in data_second_file and prefix != ' ':
