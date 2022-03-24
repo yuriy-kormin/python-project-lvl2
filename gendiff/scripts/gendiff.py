@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
-from gendiff import gendiff
+from gendiff import generate_diff
+
 
 def main():
     parser = argparse.ArgumentParser(description='Generate diff')

@@ -1,5 +1,6 @@
 import json
 
+
 def generate_diff(file_path1, file_path2):
     answer = "{\n"
     with open(file_path1) as first_file:
