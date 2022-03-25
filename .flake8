@@ -11,7 +11,7 @@ enable-extensions = G
 isort-show-traceback = True
 
 # clean default ignore list
-ignore = W503
+ignore =
 
 per-file-ignores =
   # it is possibble to have prints in scripts
