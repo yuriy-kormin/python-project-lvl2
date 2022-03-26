@@ -12,6 +12,12 @@ jobs:
               run: |
                   pip install poetry
                   make install
-            - name: run tests
-              run: |
-                  make test
+                  pip install pytest
+                  pip install pytest-cov
+            - name: codeclimate upload
+              uses: paambaati/codeclimate-action@v3.0.0
+              env:
+                CC_TEST_REPORTER_ID: ${{secrets.cov}}
+              with:
+                coverageCommand: make coverage
+                debug: true
