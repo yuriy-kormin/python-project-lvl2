@@ -1,7 +1,7 @@
 import pytest
 
 
-# @pytest.fixture
+@pytest.fixture
 def right_result():
     return """{
   - follow: False
@@ -11,3 +11,7 @@ def right_result():
   + timeout: 20
   + verbose: True
 }"""
+
+@pytest.fixture
+def file_name():
+    return ''''''
