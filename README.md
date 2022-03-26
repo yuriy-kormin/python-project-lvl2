@@ -3,7 +3,7 @@
 [![tests](https://github.com/yuriy-kormin/python-project-lvl2/actions/workflows/tests-run.yml/badge.svg)](https://github.com/yuriy-kormin/python-project-lvl2/actions/workflows/tests-run.yml)
 [![linter-run](https://github.com/yuriy-kormin/python-project-lvl2/actions/workflows/linter-run.yml/badge.svg)](https://github.com/yuriy-kormin/python-project-lvl2/actions/workflows/linter-run.yml)
 <a href="https://codeclimate.com/github/yuriy-kormin/python-project-lvl2/maintainability"><img src="https://api.codeclimate.com/v1/badges/7f241587067d2985f1dc/maintainability" /></a>
-
+<a href="https://codeclimate.com/github/yuriy-kormin/python-project-lvl2/test_coverage"><img src="https://api.codeclimate.com/v1/badges/7f241587067d2985f1dc/test_coverage" /></a>
 It's a simple CLI utility to find difference between 2 files
 
 ## Installation and usage example 
