@@ -1,4 +1,4 @@
-name: tests-run
+name: tests-cov
 on: push
 jobs:
   my-job:

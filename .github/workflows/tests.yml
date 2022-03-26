@@ -1,4 +1,4 @@
-name: tests-run
+name: test
 on: push
 jobs:
   my-job:
