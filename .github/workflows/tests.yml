@@ -11,6 +11,7 @@ jobs:
             - name: Install dependencies
               run: |
                   pip install poetry
+                  pip install pytest
                   make install
             - name: run tests
               run: |
