@@ -1,9 +1,5 @@
 name: tests-coverage
-on:
-  push:
-    branches:
-      - master
-
+on: push
 jobs:
   my-job:
     runs-on: ubuntu-latest
