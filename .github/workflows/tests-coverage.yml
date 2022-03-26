@@ -1,0 +1,20 @@
+name: tests-coverage
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  my-job:
+    runs-on: ubuntu-latest
+    steps:
+            - name: chekout repo
+              uses: actions/checkout@v2
+            - name: setup python 
+              uses: actions/setup-python@v2
+            - name: codeclimate upload
+              uses: paambaati/codeclimate-action@v2.2.4
+              env:
+                CC_TEST_REPORTER_ID: secrets.cov
+              with:
+                coverageCommand: coverage
