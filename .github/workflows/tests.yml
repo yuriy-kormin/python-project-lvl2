@@ -1,4 +1,4 @@
-name: tests
+name: tests-run
 on: push
 jobs:
   my-job:
@@ -6,13 +6,21 @@ jobs:
     steps:
             - name: chekout repo
               uses: actions/checkout@v2
-            - name: setup python 
+            - name: setup python
               uses: actions/setup-python@v2
             - name: Install dependencies
               run: |
                   pip install poetry
                   make install
                   pip install pytest
+                  pip install pytest-cov
             - name: run tests
               run: |
                   make test
+            - name: codeclimate upload
+              uses: paambaati/codeclimate-action@v3.0.0
+              env:
+                CC_TEST_REPORTER_ID: ${{secrets.cov}}
+              with:
+                coverageCommand: make coverage
+                debug: true
