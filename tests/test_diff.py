@@ -1,13 +1,12 @@
 import pytest
 from gendiff import generate_diff
 
-right_result_json_path = 'tests/fixtures/output.json'
+right_result_path = 'tests/fixtures/output.txt'
 
 
 @pytest.fixture
 def right_result():
-
-    with open(right_result_json_path) as right_result_file:
+    with open(right_result_path) as right_result_file:
         result_lines = right_result_file.readlines()
     return "".join(result_lines)
 
