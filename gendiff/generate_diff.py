@@ -15,14 +15,20 @@ def make_inner_format(file_path1,file_path2):
             result[id_count]['parent'] = parent_id
             children_ids.append(id_count)
             if isinstance(data[key], dict):
-                result[id_count]['children'] = inner(data[key],id_count,result)
+                result[id_count]['children'], id_count = inner(
+                                                            data[key],
+                                                            id_count,
+                                                            result)
             else:
-                result[id_count]['children'] = False
-        return children_ids
-    data_first_file, data_second_file = import_format.read_files(file_path1,
-                                                     file_path2)
-    inner(data_first_file,id_count,result)
-    print(result)
+                result[id_count]['value'] = data[key]
+        return children_ids, id_count
+
+    data_first_file, data_second_file = import_format.read_files(file_path1, file_path2)
+    inner(data_first_file, id_count, vresult)
+    result_first_file = result
+    inner(data_second_file, id_count, result)
+    result_second_file = result
+    return result_first_file, result_second_file
 
 
 def make_out_format(data):
@@ -31,8 +37,7 @@ def make_out_format(data):
 
 def generate_diff(file_path1, file_path2):
     answer = "{\n"
-    data_first_file, data_second_file = import_format.read_files(file_path1,
-                                                                 file_path2)
+    data_first_file, data_second_file = import_format.read_files(file_path1, file_path2)
     keys = sorted(data_first_file | data_second_file)
     for key in keys:
         prefix = ''
@@ -49,7 +54,7 @@ def generate_diff(file_path1, file_path2):
             prefix = '+'
             answer += f'  {prefix} {key}: {value_add}\n'
     answer += "}"
-    make_inner_format(file_path1, file_path2)
+    # make_inner_format(file_path1, file_path2)
     return answer
 
 
