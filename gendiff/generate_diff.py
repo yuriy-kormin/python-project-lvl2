@@ -1,34 +1,4 @@
-from gendiff import import_format
-
-
-
-def make_inner_format(file_path1,file_path2):
-    id_count = 0
-    result = {}
-    def inner(data,id_count,result):
-        parent_id = id_count
-        children_ids = []
-        for key in data:
-            id_count += 1
-            result[id_count] = {}
-            result[id_count]['name'] = key
-            result[id_count]['parent'] = parent_id
-            children_ids.append(id_count)
-            if isinstance(data[key], dict):
-                result[id_count]['children'], id_count = inner(
-                                                            data[key],
-                                                            id_count,
-                                                            result)
-            else:
-                result[id_count]['value'] = data[key]
-        return children_ids, id_count
-
-    data_first_file, data_second_file = import_format.read_files(file_path1, file_path2)
-    inner(data_first_file, id_count, vresult)
-    result_first_file = result
-    inner(data_second_file, id_count, result)
-    result_second_file = result
-    return result_first_file, result_second_file
+from gendiff import inner_format
 
 
 def make_out_format(data):
@@ -37,11 +7,11 @@ def make_out_format(data):
 
 def generate_diff(file_path1, file_path2):
     answer = "{\n"
-    data_first_file, data_second_file = import_format.read_files(file_path1, file_path2)
+    data_first_file, data_second_file = inner_format.read_files(file_path1,
+                                                                 file_path2)
     keys = sorted(data_first_file | data_second_file)
     for key in keys:
         prefix = ''
-
         if key in data_first_file:
             value_add = make_out_format(data_first_file[key])
             prefix = "-"
@@ -54,9 +24,35 @@ def generate_diff(file_path1, file_path2):
             prefix = '+'
             answer += f'  {prefix} {key}: {value_add}\n'
     answer += "}"
-    # make_inner_format(file_path1, file_path2)
+
+    def get_var_name(variable):
+        for name in globals():
+            if eval(name) == variable:
+                if eval(name) is not None:
+                    return (name)
+
+    def print_in(data):
+        name_data = get_var_name(data)
+        print('=' * 20, '    ',name_data,'   ', '=' * 20)
+        for i in sorted(data):
+            string = str(i) + ', '
+            for key in data[i].keys():
+                string += key + ' "' + str(data[i][key]) + '" '
+            string += 'parents : ' + str(inner_format.convert_path(i, data))
+            children = inner_format.convert_children(i, data)
+            string += ', children : ' + str(children) if len(children) else ''
+            print(string)
+        print("-"*80)
+
+    d1 = inner_format.make_inner_format2(inner_format.read_file(file_path1))
+    d2 = inner_format.make_inner_format2(inner_format.read_file(file_path2), d1)
+    print('='*20, '    D1   ','='*20 )
+    print_in(d1)
+    print('=' * 20, '    D2   ', '=' * 20)
+    print_in(d2)
+
+    diff = d1 | d2
+
+    print_in(diff)
+
     return answer
-
-
-
-
