@@ -10,6 +10,7 @@ def is_dir(id, data):
         return True
     return False
 
+
 def get_record(id, data):
     return data[id] if id in data.keys() else None
 
@@ -21,7 +22,7 @@ def get_records_in_branch(id, data):
             if data[cur_id]['path'] == [0]:
                 result[cur_id] = data[cur_id]
     elif id in data.keys():
-        for cur_id in data[id]['chilren']:
+        for cur_id in data[id]['children']:
             result[cur_id] = data[cur_id]
     return result
 
