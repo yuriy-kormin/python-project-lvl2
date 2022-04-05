@@ -11,10 +11,13 @@ def main():
         '--format',
         type=str,
         help='set format of output',
-        default='json'
+        choices=['stylish', 'json'],
+        default='stylish'
     )
     args = parser.parse_args()
-    print(generate_diff(args.first_file, args.second_file))
+    diff = generate_diff(args.first_file, args.second_file)
+    
+
 
 
 if __name__ == '__main__':
