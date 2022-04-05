@@ -10,6 +10,21 @@ def is_dir(id, data):
         return True
     return False
 
+def get_record(id, data):
+    return data[id] if id in data.keys() else None
+
+
+def get_records_in_branch(id, data):
+    result = {}
+    if id == 0:
+        for cur_id in data:
+            if data[cur_id]['path'] == [0]:
+                result[cur_id] = data[cur_id]
+    elif id in data.keys():
+        for cur_id in data[id]['chilren']:
+            result[cur_id] = data[cur_id]
+    return result
+
 
 def get_children_names(data, record):
     answer = []
@@ -20,7 +35,6 @@ def get_children_names(data, record):
 
 
 def get_name(data, record):
-    # print (record, 'is record')
     if record in data.keys():
         return data[record]['name']
     elif record == 0:
@@ -35,21 +49,26 @@ def find_diff(data1, data2):
         if get_name(data2, i):
             # If record exists in data2
             if is_dir(i, data1):
-                if is_dir(i, data2):
-                    #if data1[key] and data2[key] is dir
+                if is_dir(i,data2):
+                    '''if data1[key] and data2[key] is dir'''
                     answer[i]['diff'] = 'equal'
                 else:
                     answer[i]['diff'] = 'updated'
+                    answer[i]['old_value'] = 'dictionary'
+                    answer[i]['new_value'] = data2[i]['value']
             else:
-                #data1[key] is value
                 if is_dir(i, data2):
                     answer[i]['diff'] = 'updated'
+                    answer[i]['old_value'] = data1[i]['value']
+                    answer[i]['new_value'] = 'dictionary'
                 else:
-                    #data1[key] and data2[key] is value
+                    '''data1[key] and data2[key] is value'''
                     if data1[i]['value'] == data2[i]['value']:
                         answer[i]['diff'] = 'equal'
                     else:
                         answer[i]['diff'] = 'updated'
+                        answer[i]['old_value'] = data1[i]['value']
+                        answer[i]['new_value'] = data2[i]['value']
         else:
             # if record does not exists in data2
             answer[i]['diff'] = 'removed'
@@ -80,12 +99,8 @@ def convert_children(id, data):
 
 def checkin_data(name, converted_path, check_data):
     for check_id in check_data:
-        # print('get_name:', get_name(check_data, check_id), ', name:', name)
-
-        # print('name:',name,'  path = ', str(converted_path))
         if get_name(check_data, check_id) == name and \
-             convert_path(check_id, check_data) == converted_path:
-            # print('founded')
+            convert_path(check_id, check_data) == converted_path:
             return check_id
     return None
 
@@ -102,19 +117,17 @@ def make_inner_format(data, data_prev = None):
                 converted_path = []
                 for record in path:
                     converted_path.append(get_name(data_prev, record))
-                # print ('path is ',str(path))
-                checkin_id = checkin_data(key, converted_path, data_prev) if data_prev else None
-                # print ('checkin id ',checkin_id)
+                if data_prev:
+                    checkin_id = checkin_data(key, converted_path, data_prev)
+                else:
+                    checkin_id = None
                 if not checkin_id:
                     id_count += 1
                     checkin_id = id_count
-            # print(result)
             else:
                 id_count += 1
                 checkin_id = id_count
             result[checkin_id] = {}
-            # print("add record ", checkin_id)
-            # print(result)
             result[checkin_id]['name'] = key
             result[checkin_id]['path'] = path.copy()
             children_ids.append(checkin_id)

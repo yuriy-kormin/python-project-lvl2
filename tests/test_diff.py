@@ -1,5 +1,7 @@
 import pytest
 from gendiff import generate_diff
+from gendiff.formatters.stylish import stylish
+
 
 right_result_path = 'tests/fixtures/output.txt'
 
@@ -12,12 +14,14 @@ def right_result():
 
 
 def test_xml(right_result):
-    result = generate_diff('tests/fixtures/file1.json',
-                           'tests/fixtures/file2.json')
+    result = stylish(generate_diff('tests/fixtures/file1.json',
+                           'tests/fixtures/file2.json'))
+    print(result)
+    print(right_result)
     assert right_result == result
 
 
 def test_yml(right_result):
-    result = generate_diff('tests/fixtures/file1.yml',
-                           'tests/fixtures/file2.yml')
+    result = stylish(generate_diff('tests/fixtures/file1.yml',
+                           'tests/fixtures/file2.yml'))
     assert right_result == result
