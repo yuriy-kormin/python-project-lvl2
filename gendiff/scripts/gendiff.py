@@ -17,12 +17,6 @@ def main():
     )
     args = parser.parse_args()
     diff = generate_diff(args.first_file, args.second_file)
-
-    def print_(data):
-        for key in data:
-            print(key,': ',data[key])
-
-    # print_(diff)
     print(stylish(diff))
 
 

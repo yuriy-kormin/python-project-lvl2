@@ -1,22 +1,11 @@
 from gendiff.statuses import statuses
 
 
-def get_parent_name(data, record):
-    if data[record]['parent'] == 0:
-        return 'root'
-    parent_id = data[record]['parent']
-    return data[parent_id]['name']
-
-
 def is_dir(id, data):
     checking_data = data if id is False else data[id]
     if 'children' in checking_data.keys():
         return True
     return False
-
-
-def get_record(id, data):
-    return data[id] if id in data.keys() else None
 
 
 def get_records_in_branch(id, data):
@@ -31,18 +20,10 @@ def get_records_in_branch(id, data):
     return result
 
 
-def get_children_names(data, record):
-    answer = []
-    if 'children' in data[record].keys():
-        for child_id in data[record]['children']:
-            answer.append(data[child_id]['name'])
-    return answer
-
-
-def get_name(data, record):
-    if record in data.keys():
-        return data[record]['name']
-    elif record == 0:
+def get_name(id, data):
+    if id in data.keys():
+        return data[id]['name']
+    elif id == 0:
         return 'root'
     return None
 
@@ -51,14 +32,14 @@ def find_diff(data1, data2):
     answer = {}
     for i in data1:
         answer[i] = data1[i]
-        if get_name(data2, i):
+        if get_name(i, data2):
             # If record exists in data2
             if is_dir(i, data1):
                 if is_dir(i, data2):
                     '''if data1[key] and data2[key] is dir'''
                     answer[i]['diff'] = statuses['=']
                     answer[i]['children'].extend(
-                        [x for x in data2[i]['children'] \
+                        [x for x in data2[i]['children']
                          if x not in data1[i]['children']])
                 else:
                     answer[i]['diff'] = statuses['!=']
@@ -83,7 +64,7 @@ def find_diff(data1, data2):
             # if record do not exist in data2
             answer[i]['diff'] = statuses['-']
     for i in data2:
-        if not get_name(data1, i):
+        if not get_name(i, data1):
             answer[i] = data2[i]
             answer[i]['diff'] = statuses['+']
     return answer
@@ -93,23 +74,13 @@ def convert_path(id, data):
     path = data[id]['path']
     answer = []
     for cur_id in path:
-        answer.append(get_name(data, cur_id))
-    return answer
-
-
-def convert_children(id, data):
-    path = data[id]
-    answer = []
-    if 'children' in path.keys():
-        path = data[id]['children']
-        for cur_id in path:
-            answer.append(get_name(data, cur_id))
+        answer.append(get_name(cur_id, data))
     return answer
 
 
 def checkin_data(name, converted_path, check_data):
     for check_id in check_data:
-        if get_name(check_data, check_id) == name and \
+        if get_name(check_id, check_data) == name and \
                 convert_path(check_id, check_data) == converted_path:
             return check_id
     return None
@@ -126,7 +97,7 @@ def make_inner_format(data, data_prev=None):
             if data_prev:
                 converted_path = []
                 for record in path:
-                    converted_path.append(get_name(data_prev, record))
+                    converted_path.append(get_name(record, data_prev))
                 if data_prev:
                     checkin_id = checkin_data(key, converted_path, data_prev)
                 else:

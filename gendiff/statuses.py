@@ -1,6 +1,6 @@
 statuses = {
-    '+':'added',
-    '-':'removed',
-    '=':'equals',
-    '!=':'updated'
+    '+': 'added',
+    '-': 'removed',
+    '=': 'equals',
+    '!=': 'updated'
 }
