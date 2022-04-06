@@ -9,7 +9,8 @@ def get_parent_name(data, record):
 
 
 def is_dir(id, data):
-    if 'children' in data[id].keys():
+    checking_data = data if id is False else data[id]
+    if 'children' in checking_data.keys():
         return True
     return False
 
@@ -61,13 +62,15 @@ def find_diff(data1, data2):
                          if x not in data1[i]['children']])
                 else:
                     answer[i]['diff'] = statuses['!=']
-                    answer[i]['old_value'] = 'dictionary'
-                    answer[i]['new_value'] = data2[i]['value']
+                    answer[i]['change_type'] = True
+                    answer[i]['old_children'] = answer[i].pop('children')
+                    answer[i]['value'] = data2[i]['value']
             else:
                 if is_dir(i, data2):
                     answer[i]['diff'] = statuses['!=']
-                    answer[i]['old_value'] = data1[i]['value']
-                    answer[i]['new_value'] = 'dictionary'
+                    answer[i]['old_value'] = answer[i].pop('value')
+                    answer[i]['change_type'] = True
+                    answer[i]['children'] = data2[i]['children']
                 else:
                     '''data1[key] and data2[key] is value'''
                     if data1[i]['value'] == data2[i]['value']:
