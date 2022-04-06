@@ -1,31 +1,36 @@
 {
-  "common": {
+  "site": {
     "follow": false,
-    "setting1": "Value 1",
-    "setting3": null,
-    "setting4": "blah blah",
-    "setting5": {
-      "key5": "value5"
-    },
-    "setting6": {
-      "key": "value",
-      "ops": "vops",
-      "doge": {
-        "wow": "so much"
+    "url": "supersite_superzone",
+    "protocol": "https",
+    "depend": "none",
+    "setting_users": {
+      "name": "sidor",
+      "add_data": {
+        "surname": "ivanov"
       }
     }
   },
-  "group1": {
-    "foo": "bar",
-    "baz": "bars",
-    "nest": "str"
-  },
-  "group3": {
-    "deep": {
-      "id": {
-        "number": 45
+  "servers": {
+    "name": "alpha",
+    "place": "home",
+    "values": {
+      "data": {
+        "asub_data": {
+          "inner": {
+            "value": "u"
+          }
+        }
+      },
+      "second_data": {
+        "iAWAWn_second": {
+          "in_the_middle": {
+            "val":"val_o"
+          }
+        }
       }
-    },
-    "fee": 100500
-  }
+    }
+  },
+  "fee":"fr",
+  "type":"org"
 }
