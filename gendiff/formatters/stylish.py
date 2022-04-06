@@ -3,12 +3,14 @@ from gendiff.statuses import statuses
 
 
 def make_out_format(data):
+    answer = ''
     if type(data) is bool:
-        return str(data).lower()
+        answer = str(data).lower()
     elif data is None:
-        return 'null'
+        answer = 'null'
     else:
-        return str(data)
+        answer = str(data)
+    return ' '+answer if len(answer) else ''
 
 
 def is_change_type_to(data):
@@ -39,13 +41,13 @@ def stylish(data):
                             dict_['value'] = dict_['old_value']
                         else:
                             dict_['value'] = dict_['new_value']
-                result.extend(make_string(dict_, False, mark))
+                    result.extend(make_string(dict_, False, mark))
             else:
                 value = '{' if is_dir(False, dict_) else dict_['value']
                 spaces = stylish_indents[dict_['diff']] if mark else stylish_indents[statuses['=']]
                 # print (spaces,':spaces')
                 result.append(stylish_indents[statuses['=']] * level + \
-                              spaces + dict_['name'] + ': ' + make_out_format(value))
+                              spaces + dict_['name'] + ':' + make_out_format(value))
         return result
 
     def inner(id, data, mark=True):
@@ -65,7 +67,10 @@ def stylish(data):
                 child[1]['children'] = child[1]['new_children']
                 child[1]['diff'] = statuses['+']
                 result.extend(make_string(child[1], mark=mark_status))
+                mark_status = False
+                result.extend(inner(child[0], data, mark=mark_status))
                 child[1].pop('children')
+                mark_status = mark
             elif is_change_type_to(child[1]) == 'value':
                 child[1]['children'] = child[1]['old_children']
                 child[1]['diff'] = statuses['-']
@@ -78,6 +83,7 @@ def stylish(data):
                 child[1]['diff'] = statuses['+']
                 result.extend(make_string(child[1], mark=mark_status))
                 child[1].pop('value')
+                mark_status = mark
             else:
                 # print ('MARK',child[1])
                 result.extend(make_string(child[1], mark=mark_status))

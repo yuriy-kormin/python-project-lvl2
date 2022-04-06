@@ -29,6 +29,9 @@ def test_xml(right_result):
 def test_nested_xml(right_result_nested):
     result = stylish(generate_diff('tests/fixtures/file1_nested.json',
                            'tests/fixtures/file2_nested.json'))
+    # print(result)
+    # print ('*'*100)
+    # print (right_result_nested)
     assert right_result_nested == result
 
 
