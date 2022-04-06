@@ -1,6 +1,6 @@
-statuses = [
-    'added',
-    'removed',
-    'equal',
-    'updated',
-]
+statuses = {
+    '+':'added',
+    '-':'removed',
+    '=':'equals',
+    '!=':'updated'
+}

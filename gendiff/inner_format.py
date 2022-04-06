@@ -1,3 +1,6 @@
+from gendiff.statuses import statuses
+
+
 def get_parent_name(data, record):
     if data[record]['parent'] == 0:
         return 'root'
@@ -50,33 +53,36 @@ def find_diff(data1, data2):
         if get_name(data2, i):
             # If record exists in data2
             if is_dir(i, data1):
-                if is_dir(i,data2):
+                if is_dir(i, data2):
                     '''if data1[key] and data2[key] is dir'''
-                    answer[i]['diff'] = 'equal'
+                    answer[i]['diff'] = statuses['=']
+                    answer[i]['children'].extend(
+                        [x for x in data2[i]['children'] \
+                         if x not in data1[i]['children']])
                 else:
-                    answer[i]['diff'] = 'updated'
+                    answer[i]['diff'] = statuses['!=']
                     answer[i]['old_value'] = 'dictionary'
                     answer[i]['new_value'] = data2[i]['value']
             else:
                 if is_dir(i, data2):
-                    answer[i]['diff'] = 'updated'
+                    answer[i]['diff'] = statuses['!=']
                     answer[i]['old_value'] = data1[i]['value']
                     answer[i]['new_value'] = 'dictionary'
                 else:
                     '''data1[key] and data2[key] is value'''
                     if data1[i]['value'] == data2[i]['value']:
-                        answer[i]['diff'] = 'equal'
+                        answer[i]['diff'] = statuses['=']
                     else:
-                        answer[i]['diff'] = 'updated'
+                        answer[i]['diff'] = statuses['!=']
                         answer[i]['old_value'] = data1[i]['value']
                         answer[i]['new_value'] = data2[i]['value']
         else:
-            # if record does not exists in data2
-            answer[i]['diff'] = 'removed'
+            # if record do not exist in data2
+            answer[i]['diff'] = statuses['-']
     for i in data2:
         if not get_name(data1, i):
             answer[i] = data2[i]
-            answer[i]['diff'] = 'added'
+            answer[i]['diff'] = statuses['+']
     return answer
 
 
@@ -101,12 +107,12 @@ def convert_children(id, data):
 def checkin_data(name, converted_path, check_data):
     for check_id in check_data:
         if get_name(check_data, check_id) == name and \
-            convert_path(check_id, check_data) == converted_path:
+                convert_path(check_id, check_data) == converted_path:
             return check_id
     return None
 
 
-def make_inner_format(data, data_prev = None):
+def make_inner_format(data, data_prev=None):
     id_count = 0 if not data_prev else max(data_prev)
     result = {}
     path = [0]
@@ -145,4 +151,3 @@ def make_inner_format(data, data_prev = None):
 
     inner(data, id_count, path)
     return result
-
