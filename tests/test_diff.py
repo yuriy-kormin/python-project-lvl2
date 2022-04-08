@@ -3,8 +3,30 @@ from gendiff import generate_diff
 from gendiff.formatters.stylish import stylish
 
 right_result_path = 'tests/fixtures/output.txt'
+right_result_flat_path = 'tests/fixtures/output.txt'
 right_result_nested_path = 'tests/fixtures/output_nested.json'
 right_result_nestedYML_path = 'tests/fixtures/out_nested.yml'
+
+
+checking_data={
+                  1:['tests/fixtures/file1.yml', 'tests/fixtures/file2.yml']
+
+}
+
+
+@pytest.fixture
+def rr(path):
+    with open(path) as rr_file:
+        rr_lines = rr_file.readlines()
+    return "".join(rr_lines)
+
+@pytest.mark.parametrize('path', [right_result_flat_path])
+def test_flat_yml(rr):
+    result = stylish(generate_diff(
+        'tests/fixtures/file1.yml',
+        'tests/fixtures/file2.yml')
+    )
+    assert rr == result
 
 
 @pytest.fixture

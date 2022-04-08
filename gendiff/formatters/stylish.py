@@ -100,8 +100,5 @@ def stylish(data):
                         closed_line=True,
                         mark=mark_status))
         return result
-    # print ("-"*100)
-    # print (data)
-    # print("-" * 100)
     res = inner(0, data)
     return "\n".join(res)
