@@ -59,7 +59,6 @@ def stylish(data):
         if id == 0:
             result.append('{')
         records = get_records_in_branch(id, data)
-        # print('records is ',records)
         sorted_records = sorted(records.items(), key=lambda x: x[1]['name'])
         for child in sorted_records:
             if is_change_type_to(child[1]) == 'dir':
@@ -88,7 +87,6 @@ def stylish(data):
                 child[1].pop('value')
                 mark_status = mark
             else:
-                # print ('MARK',child[1])
                 result.extend(make_string(child[1], mark=mark_status))
             if is_dir(False, child[1]):
                 if child[1]['diff'] != statuses['=']:
