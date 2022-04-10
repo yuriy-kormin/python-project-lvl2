@@ -51,7 +51,7 @@ def make_string(dict_, closed_line=False, mark=True):
     return result
 
 
-def stylish(data):
+def make_format(data):
     def inner(id, data, mark=True):
         mark_status = mark
         result = []
