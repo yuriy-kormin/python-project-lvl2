@@ -1,12 +1,11 @@
 from gendiff.inner_format import get_records_in_branch, is_dir
 from gendiff.statuses import statuses
 
-
 stylish_indents = {
-                    statuses['+']: '  + ',
-                    statuses['-']: '  - ',
-                    statuses['=']: '    '
-                  }
+    statuses['+']: '  + ',
+    statuses['-']: '  - ',
+    statuses['=']: '    '
+}
 
 
 def make_out_format(data):
@@ -46,9 +45,9 @@ def make_string(dict_, closed_line=False, mark=True):
             value = '{' if is_dir(False, dict_) else dict_['value']
             spaces = stylish_indents[dict_['diff']] if mark \
                 else stylish_indents[statuses['=']]
-            result.append(stylish_indents[statuses['=']] * level +
-                          spaces + dict_['name'] + ':' +
-                          make_out_format(value))
+            string_begin = stylish_indents[statuses['=']] * level
+            string_begin += spaces + dict_['name'] + make_out_format(value)
+            result.append(string_begin)
     return result
 
 
@@ -98,5 +97,6 @@ def stylish(data):
                         closed_line=True,
                         mark=mark_status))
         return result
+
     res = inner(0, data)
     return "\n".join(res)

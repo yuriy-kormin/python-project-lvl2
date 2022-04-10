@@ -7,25 +7,20 @@ right_result_flat_path = 'tests/fixtures/output.txt'
 right_result_nested_path = 'tests/fixtures/output_nested.json'
 right_result_nestedYML_path = 'tests/fixtures/out_nested.yml'
 
-
-checking_data = (
-                [
-                    ['tests/fixtures/file1.yml', 'tests/fixtures/file2.yml'],
-                    'tests/fixtures/output.txt'
-                ],
-                [
-                    ['tests/fixtures/file1.json', 'tests/fixtures/file2.json'],
-                    'tests/fixtures/output.txt'
-                ],
-                [
-                    ['tests/fixtures/file1_nested.json', 'tests/fixtures/file2_nested.json'],
-                    'tests/fixtures/output_nested.json'
-                ],
-                [
-                    ['tests/fixtures/file1_nested.yml', 'tests/fixtures/file2_nested.yml'],
-                    'tests/fixtures/out_nested.yml'
-                ]
-)
+checking_data = ([
+                 ['tests/fixtures/file1.yml',
+                  'tests/fixtures/file2.yml'],
+                 'tests/fixtures/output.txt'],
+                 [['tests/fixtures/file1.json',
+                   'tests/fixtures/file2.json'],
+                  'tests/fixtures/output.txt'],
+                 [['tests/fixtures/file1_nested.json',
+                   'tests/fixtures/file2_nested.json'],
+                  'tests/fixtures/output_nested.json'],
+                 [['tests/fixtures/file1_nested.yml',
+                   'tests/fixtures/file2_nested.yml'],
+                  'tests/fixtures/out_nested.yml'
+                  ])
 
 
 @pytest.fixture
