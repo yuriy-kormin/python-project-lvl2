@@ -45,8 +45,8 @@ def make_string(dict_, closed_line=False, mark=True):
             value = '{' if is_dir(False, dict_) else dict_['value']
             spaces = stylish_indents[dict_['diff']] if mark \
                 else stylish_indents[statuses['=']]
-            string_begin = stylish_indents[statuses['=']] * level
-            string_begin += spaces + dict_['name'] + make_out_format(value)
+            string_begin = stylish_indents[statuses['=']] * level \
+                + spaces + dict_['name'] + ":" + make_out_format(value)
             result.append(string_begin)
     return result
 

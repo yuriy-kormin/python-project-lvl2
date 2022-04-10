@@ -2,13 +2,8 @@ import pytest
 from gendiff import generate_diff
 from gendiff.formatters.stylish import stylish
 
-right_result_path = 'tests/fixtures/output.txt'
-right_result_flat_path = 'tests/fixtures/output.txt'
-right_result_nested_path = 'tests/fixtures/output_nested.json'
-right_result_nestedYML_path = 'tests/fixtures/out_nested.yml'
 
-checking_data = ([
-                 ['tests/fixtures/file1.yml',
+checking_data = ([['tests/fixtures/file1.yml',
                   'tests/fixtures/file2.yml'],
                  'tests/fixtures/output.txt'],
                  [['tests/fixtures/file1.json',
@@ -19,18 +14,17 @@ checking_data = ([
                   'tests/fixtures/output_nested.json'],
                  [['tests/fixtures/file1_nested.yml',
                    'tests/fixtures/file2_nested.yml'],
-                  'tests/fixtures/out_nested.yml'
-                  ])
+                  'tests/fixtures/out_nested.yml'])
 
 
 @pytest.fixture
-def rr(path):
+def right_result(path):
     with open(path) as rr_file:
         rr_lines = rr_file.readlines()
     return "".join(rr_lines)
 
 
 @pytest.mark.parametrize('file_paths, path', checking_data)
-def test_stylish(rr, file_paths):
+def test_stylish(right_result, file_paths):
     result = stylish(generate_diff(file_paths[0], file_paths[1]))
-    assert rr == result
+    assert right_result == result
