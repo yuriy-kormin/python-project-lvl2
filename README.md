@@ -10,3 +10,4 @@ It's a simple CLI utility to find difference between 2 files
 ## Installation and usage example 
 [![asciicast](https://asciinema.org/a/480362.svg)](https://asciinema.org/a/480362)
 [![asciicast](https://asciinema.org/a/lrE2zzmUpqzeE3ufPi1HMfkjW.svg)](https://asciinema.org/a/lrE2zzmUpqzeE3ufPi1HMfkjW)
+[![asciicast](https://asciinema.org/a/488580.svg)](https://asciinema.org/a/488580)
