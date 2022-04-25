@@ -8,6 +8,16 @@ def is_dir(id, data):
     return False
 
 
+def get_status(id, data):
+    return data[id]['diff']
+
+
+def is_change_type(id, data):
+    if 'change_type_to' in data[id].keys():
+        return True
+    return False
+
+
 def get_records_in_branch(id, data):
     result = {}
     if id == 0:
