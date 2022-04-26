@@ -18,7 +18,7 @@ def is_change_type(id, data):
     return False
 
 
-def get_records_in_branch(id, data):
+def get_records_in_branch(id, data, sort_by_name=False):
     result = {}
     if id == 0:
         for cur_id in data:
@@ -27,6 +27,9 @@ def get_records_in_branch(id, data):
     elif id in data.keys():
         for cur_id in data[id]['children']:
             result[cur_id] = data[cur_id]
+    if sort_by_name:
+        return {key: value for key, value in sorted(
+            result.items(), key=lambda x: x[1]['name'])}
     return result
 
 

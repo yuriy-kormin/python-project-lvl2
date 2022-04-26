@@ -8,10 +8,10 @@ checking_files = (
     ('tests/fixtures/file1_nested.yml', 'tests/fixtures/file2_nested.yml')
 )
 out_files = (
-    ('tests/fixtures/output.txt', 'tests/fixtures/output_plain.txt'),
-    ('tests/fixtures/output.txt', 'tests/fixtures/output_plain.txt'),
+    ('tests/fixtures/output.txt', 'tests/fixtures/output_flat_plain.txt'),
+    ('tests/fixtures/output.txt', 'tests/fixtures/output_flat_plain.txt'),
     ('tests/fixtures/output_nested.json', 'tests/fixtures/output_plain.txt'),
-    ('tests/fixtures/out_nested.yml', 'tests/fixtures/output_plain.txt')
+    ('tests/fixtures/out_nested.yml', 'tests/fixtures/output_nested_plain_yml.txt')
 )
 
 test = [[y, out_files[x][0]] for x, y in enumerate(checking_files)]
@@ -28,5 +28,13 @@ def right_result(path):
 @pytest.mark.parametrize('file_paths, path', test)
 def test_stylish(right_result, file_paths):
     result = generate_diff(file_paths[0], file_paths[1], 'stylish')
-    # result = make_stylish(diff)
+    assert right_result == result
+
+
+test = [[y, out_files[x][1]] for x, y in enumerate(checking_files)]
+
+
+@pytest.mark.parametrize('file_paths, path', test)
+def test_stylish(right_result, file_paths):
+    result = generate_diff(file_paths[0], file_paths[1], 'plain')
     assert right_result == result
