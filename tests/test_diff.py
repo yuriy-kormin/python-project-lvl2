@@ -7,15 +7,21 @@ checking_files = (
     ('tests/fixtures/file1_nested.json', 'tests/fixtures/file2_nested.json'),
     ('tests/fixtures/file1_nested.yml', 'tests/fixtures/file2_nested.yml')
 )
-out_files = (
-    ('tests/fixtures/output.txt', 'tests/fixtures/output_flat_plain.txt'),
-    ('tests/fixtures/output.txt', 'tests/fixtures/output_flat_plain.txt'),
-    ('tests/fixtures/output_nested.json', 'tests/fixtures/output_plain.txt'),
-    ('tests/fixtures/out_nested.yml', 'tests/fixtures/output_nested_plain_yml.txt')
+out_files_stylish = (
+    'tests/fixtures/output.txt',
+    'tests/fixtures/output.txt',
+    'tests/fixtures/output_nested.json',
+    'tests/fixtures/out_nested.yml'
+)
+out_files_plain = (
+    'tests/fixtures/output_flat_plain.txt',
+    'tests/fixtures/output_flat_plain.txt',
+    'tests/fixtures/output_plain.txt',
+    'tests/fixtures/output_nested_plain_yml.txt'
 )
 
-test = [[y, out_files[x][0]] for x, y in enumerate(checking_files)]
-
+test_stylish = ((y, out_files_stylish[x]) for x, y in enumerate(checking_files))
+test_plain = ([y, out_files_plain[x]] for x, y in enumerate(checking_files))
 
 @pytest.fixture
 def right_result(path):
@@ -24,17 +30,13 @@ def right_result(path):
     return "".join(right_result_lines)
 
 
-# @pytest.mark.parametrize('file_paths', checking_files)
-@pytest.mark.parametrize('file_paths, path', test)
-def test_stylish(right_result, file_paths):
+@pytest.mark.parametrize('file_paths,path', test_stylish)
+def test_stylish(file_paths, right_result):
     result = generate_diff(file_paths[0], file_paths[1], 'stylish')
     assert right_result == result
 
 
-test = [[y, out_files[x][1]] for x, y in enumerate(checking_files)]
-
-
-@pytest.mark.parametrize('file_paths, path', test)
-def test_stylish(right_result, file_paths):
-    result = generate_diff(file_paths[0], file_paths[1], 'plain')
-    assert right_result == result
+@pytest.mark.parametrize('file_paths, path', test_plain)
+def test_plain(file_paths, right_result):
+     result = generate_diff(file_paths[0], file_paths[1], 'plain')
+     assert right_result == result
