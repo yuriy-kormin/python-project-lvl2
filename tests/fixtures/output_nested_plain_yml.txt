@@ -7,3 +7,4 @@ Property 'servers.values.second_data.third' was added with value: 'add'
 Property 'site.follow' was updated. From false to true
 Property 'site.setting_users.name' was updated. From 'sidor' to 'sid'
 Property 'site.setting_users.pos' was added with value: 'manager'
+Property 'site.url' was updated. From 'supersite_superzone' to [complex value]

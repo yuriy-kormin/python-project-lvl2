@@ -2,7 +2,9 @@
   "site": {
     "depend": none,
     "follow": true,
-    "url": "supersite_superzone",
+    "url": {
+     "vip": "supersite_superzone",
+    },
     "protocol": "https",
 
     "setting_users": {
@@ -19,9 +21,7 @@
     "place": "not home",
     "values": {
       "asub_data": {
-        "inner": {
-          "value": ""
-        }
+        "inner": "key_old"
       },
       "second_data": {
         "third": "add"
