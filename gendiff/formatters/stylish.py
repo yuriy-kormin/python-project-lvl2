@@ -92,9 +92,7 @@ def make_format(data):
                 result.extend(inner(child, data, mark=mark_status))
                 mark_status = mark
         result.extend(
-            make_string(records[child],
-                        closed_line=True,
-                        mark=mark_status))
+            make_string(records[child], closed_line=True, mark=mark_status))
         return result
 
     res = inner(0, data)

@@ -23,6 +23,7 @@ out_files_plain = (
 test_stylish = ((y, out_files_stylish[x]) for x, y in enumerate(checking_files))
 test_plain = ([y, out_files_plain[x]] for x, y in enumerate(checking_files))
 
+
 @pytest.fixture
 def right_result(path):
     with open(path) as right_result_file:
@@ -38,5 +39,5 @@ def test_stylish(file_paths, right_result):
 
 @pytest.mark.parametrize('file_paths, path', test_plain)
 def test_plain(file_paths, right_result):
-     result = generate_diff(file_paths[0], file_paths[1], 'plain')
-     assert right_result == result
+    result = generate_diff(file_paths[0], file_paths[1], 'plain')
+    assert right_result == result
