@@ -57,43 +57,42 @@ def make_format(data):
         result = []
         if id == 0:
             result.append('{')
-        records = get_records_in_branch(id, data)
-        sorted_records = sorted(records.items(), key=lambda x: x[1]['name'])
-        for child in sorted_records:
-            if is_change_type_to(child[1]) == 'dir':
-                child[1]['value'] = child[1]['old_value']
-                child[1]['diff'] = statuses['-']
-                result.extend(make_string(child[1], mark=mark_status))
-                child[1].pop('value')
-                child[1]['children'] = child[1]['new_children']
-                child[1]['diff'] = statuses['+']
-                result.extend(make_string(child[1], mark=mark_status))
+        records = get_records_in_branch(id, data, sort_by_name=True)
+        for child in records:
+            if is_change_type_to(records[child]) == 'dir':
+                records[child]['value'] = records[child]['old_value']
+                records[child]['diff'] = statuses['-']
+                result.extend(make_string(records[child], mark=mark_status))
+                records[child].pop('value')
+                records[child]['children'] = records[child]['new_children']
+                records[child]['diff'] = statuses['+']
+                result.extend(make_string(records[child], mark=mark_status))
                 mark_status = False
-                result.extend(inner(child[0], data, mark=mark_status))
-                child[1].pop('children')
+                result.extend(inner(child, data, mark=mark_status))
+                records[child].pop('children')
                 mark_status = mark
-            elif is_change_type_to(child[1]) == 'value':
-                child[1]['children'] = child[1]['old_children']
-                child[1]['diff'] = statuses['-']
-                result.extend(make_string(child[1], mark=mark_status))
+            elif is_change_type_to(records[child]) == 'value':
+                records[child]['children'] = records[child]['old_children']
+                records[child]['diff'] = statuses['-']
+                result.extend(make_string(records[child], mark=mark_status))
                 mark_status = False
-                result.extend(inner(child[0], data, mark=mark_status))
+                result.extend(inner(child, data, mark=mark_status))
                 mark_status = mark
-                child[1].pop('children')
-                child[1]['value'] = child[1]['new_value']
-                child[1]['diff'] = statuses['+']
-                result.extend(make_string(child[1], mark=mark_status))
-                child[1].pop('value')
+                records[child].pop('children')
+                records[child]['value'] = records[child]['new_value']
+                records[child]['diff'] = statuses['+']
+                result.extend(make_string(records[child], mark=mark_status))
+                records[child].pop('value')
                 mark_status = mark
             else:
-                result.extend(make_string(child[1], mark=mark_status))
-            if is_dir(False, child[1]):
-                if child[1]['diff'] != statuses['=']:
+                result.extend(make_string(records[child], mark=mark_status))
+            if is_dir(False, records[child]):
+                if records[child]['diff'] != statuses['=']:
                     mark_status = False
-                result.extend(inner(child[0], data, mark=mark_status))
+                result.extend(inner(child, data, mark=mark_status))
                 mark_status = mark
         result.extend(
-            make_string(sorted_records[-1][1],
+            make_string(records[child],
                         closed_line=True,
                         mark=mark_status))
         return result
