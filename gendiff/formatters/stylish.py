@@ -55,8 +55,7 @@ def make_format(data):
     def inner(id, data, mark=True):
         mark_status = mark
         result = []
-        if id == 0:
-            result.append('{')
+        result.append('{') if id == 0 else None
         records = get_records_in_branch(id, data, sort_by_name=True)
         for child in records:
             if is_change_type_to(records[child]) == 'dir':

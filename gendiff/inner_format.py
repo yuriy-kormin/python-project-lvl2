@@ -19,14 +19,11 @@ def is_change_type(id, data):
 
 
 def get_records_in_branch(id, data, sort_by_name=False):
-    result = {}
+
     if id == 0:
-        for cur_id in data:
-            if data[cur_id]['path'] == [0]:
-                result[cur_id] = data[cur_id]
+        result = {x: data[x] for x in data if data[x]['path'] == [0]}
     elif id in data.keys():
-        for cur_id in data[id]['children']:
-            result[cur_id] = data[cur_id]
+        result = {x: data[x] for x in data[id]['children']}
     if sort_by_name:
         return {key: value for key, value in sorted(
             result.items(), key=lambda x: x[1]['name'])}
@@ -100,6 +97,7 @@ def checkin_data(name, converted_path, check_data):
 
 
 def make_inner_format(data, data_prev=None):
+    ''' data_prev - first data to find properties in'''
     id_count = 0 if not data_prev else max(data_prev)
     result = {}
     path = [0]
@@ -111,10 +109,8 @@ def make_inner_format(data, data_prev=None):
                 converted_path = []
                 for record in path:
                     converted_path.append(get_name(record, data_prev))
-                if data_prev:
-                    checkin_id = checkin_data(key, converted_path, data_prev)
-                else:
-                    checkin_id = None
+                checkin_id = checkin_data(key, converted_path, data_prev) \
+                    if data_prev else None
                 if not checkin_id:
                     id_count += 1
                     checkin_id = id_count
