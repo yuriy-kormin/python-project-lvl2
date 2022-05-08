@@ -104,7 +104,18 @@ def print_iv(data):
 def make_inner_format(data):
     ''' data_prev - first data to find properties in'''
     print_iv(data)
-
+    print ('----')
+    def inner(data):
+        result = {}
+        if isinstance((data), dict):
+            result['children'] =[]
+            for key in data:
+                result['children'].append(inner(data[key]))
+        else:
+            result['value'] = data
+        return result
+    res = inner(data)
+    print_iv(res)
     # id_count = 0 if not data_prev else max(data_prev)
     # result = {}
     # path = [0]
@@ -140,4 +151,4 @@ def make_inner_format(data):
     #     return children_ids, id_count
     #
     # inner(data, id_count, path)
-    return result
+    # return result
