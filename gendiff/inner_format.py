@@ -96,41 +96,48 @@ def checkin_data(name, converted_path, check_data):
     return None
 
 
-def make_inner_format(data, data_prev=None):
+def print_iv(data):
+    for i in data:
+        print('i=',i, ' data=',data[i])
+
+
+def make_inner_format(data):
     ''' data_prev - first data to find properties in'''
-    id_count = 0 if not data_prev else max(data_prev)
-    result = {}
-    path = [0]
+    print_iv(data)
 
-    def inner(data, id_count, path):
-        children_ids = []
-        for key in data:
-            if data_prev:
-                converted_path = []
-                for record in path:
-                    converted_path.append(get_name(record, data_prev))
-                checkin_id = checkin_data(key, converted_path, data_prev) \
-                    if data_prev else None
-                if not checkin_id:
-                    id_count += 1
-                    checkin_id = id_count
-            else:
-                id_count += 1
-                checkin_id = id_count
-            result[checkin_id] = {}
-            result[checkin_id]['name'] = key
-            result[checkin_id]['path'] = path.copy()
-            children_ids.append(checkin_id)
-            if isinstance(data[key], dict):
-                new_path = path.copy()
-                new_path.append(checkin_id)
-                result[checkin_id]['children'], id_count = inner(
-                    data[key],
-                    id_count,
-                    new_path)
-            else:
-                result[checkin_id]['value'] = data[key]
-        return children_ids, id_count
-
-    inner(data, id_count, path)
+    # id_count = 0 if not data_prev else max(data_prev)
+    # result = {}
+    # path = [0]
+    #
+    # def inner(data, id_count, path):
+    #     children_ids = []
+    #     for key in data:
+    #         if data_prev:
+    #             converted_path = []
+    #             for record in path:
+    #                 converted_path.append(get_name(record, data_prev))
+    #             checkin_id = checkin_data(key, converted_path, data_prev) \
+    #                 if data_prev else None
+    #             if not checkin_id:
+    #                 id_count += 1
+    #                 checkin_id = id_count
+    #         else:
+    #             id_count += 1
+    #             checkin_id = id_count
+    #         result[checkin_id] = {}
+    #         result[checkin_id]['name'] = key
+    #         result[checkin_id]['path'] = path.copy()
+    #         children_ids.append(checkin_id)
+    #         if isinstance(data[key], dict):
+    #             new_path = path.copy()
+    #             new_path.append(checkin_id)
+    #             result[checkin_id]['children'], id_count = inner(
+    #                 data[key],
+    #                 id_count,
+    #                 new_path)
+    #         else:
+    #             result[checkin_id]['value'] = data[key]
+    #     return children_ids, id_count
+    #
+    # inner(data, id_count, path)
     return result
