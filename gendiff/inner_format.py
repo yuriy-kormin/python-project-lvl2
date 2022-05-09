@@ -82,13 +82,14 @@ def find_diff(data1, data2):
             set_status_added(diff[key])
         elif is_equals(data1[key], data2[key]):
             set_status_equals(diff[key])
-            set_old_record(diff[key], data1[key])
+            if is_dir(diff[key]):
+                diff['children'] = find_diff(get_children(data1, key), get_children(data2, key))
+            # set_old_record(diff[key], data1[key])
         else:
             set_status_updated(diff[key])
             set_old_record(diff[key], data1[key])
 
-        if is_dir(diff[key]):
-            diff['children'] = find_diff(get_children(data1, key), get_children(data2, key))
+
     # print_iv(diff)
     return diff
 
