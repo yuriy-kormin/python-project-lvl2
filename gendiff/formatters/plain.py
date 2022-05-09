@@ -1,5 +1,5 @@
-from gendiff.inner_format import convert_path, get_status, get_name,\
-    get_records_in_branch, is_dir, is_change_type
+# from gendiff.inner_format import convert_path, get_status, get_name,\
+#   get_records_in_branch, is_dir, is_change_type
 from gendiff.statuses import statuses
 
 plain_statuses = {

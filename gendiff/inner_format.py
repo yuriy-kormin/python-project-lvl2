@@ -1,154 +1,123 @@
 from gendiff.statuses import statuses
 
 
-def is_dir(id, data):
-    checking_data = data if id is False else data[id]
-    if 'children' in checking_data.keys():
+def is_dir(property):
+    if isinstance(property, dict) and 'children' in property.keys():
         return True
     return False
 
 
-def get_status(id, data):
-    return data[id]['diff']
-
-
-def is_change_type(id, data):
-    if 'change_type_to' in data[id].keys():
+def is_record(property):
+    if isinstance(property, dict) and 'value' in property.keys():
         return True
     return False
 
 
-def get_records_in_branch(id, data, sort_by_name=False):
-
-    if id == 0:
-        result = {x: data[x] for x in data if data[x]['path'] == [0]}
-    elif id in data.keys():
-        result = {x: data[x] for x in data[id]['children']}
-    if sort_by_name:
-        return {key: value for key, value in sorted(
-            result.items(), key=lambda x: x[1]['name'])}
-    return result
+def get_value(property):
+    return property['value'] if is_record(property) else None
 
 
-def get_name(id, data):
-    if id in data.keys():
-        return data[id]['name']
-    elif id == 0:
-        return 'root'
-    return None
+# def get_property(property):
+#     return property
+def set_old_record(property, record):
+    property['old'] = record
+
+
+def get_old_record(property):
+    return property['old']
+
+
+def get_children(root,property_name):
+    if property_name in root.keys():
+        if 'children' in root[property_name].keys():
+            return root[property_name]['children']
+    return {}
+    # return property['children'] if 'children' in property.keys() else {}
+
+
+def status(property, set_status=None):
+    # set_status: set status if isset else return existing status
+
+    if isinstance(property, dict):
+        if set_status:
+            property['status'] = statuses[set_status]
+        return property['status'] if 'status' in property.keys() else None
+
+
+def set_status_removed(property):
+    status(property, set_status='-')
+
+
+def set_status_added(property):
+    status(property, set_status='+')
+
+
+def set_status_equals(property):
+    status(property, set_status='=')
+
+
+def set_status_updated(property):
+    status(property, set_status='!=')
+
+
+def is_equals(property1, property2):
+    properties = (property1, property2)
+    if all(map(is_dir, properties)):
+        return True
+    elif all(map(is_record, properties)):
+        if get_value(property1) == get_value(property2):
+            return True
+    return False
 
 
 def find_diff(data1, data2):
-    answer = {}
-    for i in data1:
-        answer[i] = data1[i]
-        if get_name(i, data2):
-            # If record exists in data2
-            if is_dir(i, data1):
-                if is_dir(i, data2):
-                    '''if data1[key] and data2[key] is dir'''
-                    answer[i]['diff'] = statuses['=']
-                    answer[i]['children'].extend(
-                        [x for x in data2[i]['children']
-                         if x not in data1[i]['children']])
-                else:
-                    answer[i]['diff'] = statuses['!=']
-                    answer[i]['change_type_to'] = 'value'
-                    answer[i]['old_children'] = answer[i].pop('children')
-                    answer[i]['new_value'] = data2[i]['value']
-            else:
-                if is_dir(i, data2):
-                    answer[i]['diff'] = statuses['!=']
-                    answer[i]['old_value'] = answer[i].pop('value')
-                    answer[i]['change_type_to'] = 'dir'
-                    answer[i]['new_children'] = data2[i]['children']
-                else:
-                    '''data1[key] and data2[key] is value'''
-                    if data1[i]['value'] == data2[i]['value']:
-                        answer[i]['diff'] = statuses['=']
-                    else:
-                        answer[i]['diff'] = statuses['!=']
-                        answer[i]['old_value'] = data1[i]['value']
-                        answer[i]['new_value'] = data2[i]['value']
+    print (data1)
+    diff = {}
+    for key in data1 | data2:
+        print(key)
+        diff[key] = data2[key] if key in data2.keys() else data1[key]
+        if key not in data2.keys():
+            set_status_removed(diff[key])
+        elif key not in data1.keys():
+            set_status_added(diff[key])
+        elif is_equals(data1[key], data2[key]):
+            set_status_equals(diff[key])
+            set_old_record(diff[key], data1[key])
         else:
-            # if record do not exist in data2
-            answer[i]['diff'] = statuses['-']
-    for i in data2:
-        if not get_name(i, data1):
-            answer[i] = data2[i]
-            answer[i]['diff'] = statuses['+']
-    return answer
+            set_status_updated(diff[key])
+            set_old_record(diff[key], data1[key])
+
+        if is_dir(diff[key]):
+            diff['children'] = find_diff(get_children(data1, key), get_children(data2, key))
+    # print_iv(diff)
+    return diff
 
 
-def convert_path(id, data):
-    path = data[id]['path']
-    answer = []
-    for cur_id in path:
-        answer.append(get_name(cur_id, data))
-    return answer
-
-
-def checkin_data(name, converted_path, check_data):
-    for check_id in check_data:
-        if get_name(check_id, check_data) == name and \
-                convert_path(check_id, check_data) == converted_path:
-            return check_id
-    return None
-
-
-def print_iv(data):
+def print_iv(data,sep = ''):
     for i in data:
-        print('i=',i, ' data=',data[i])
+        if is_dir(data[i]):
+            print(i,':')
+            print_iv(data[i]['children'], sep+' ')
+        else:
+            string =''
+            for j in data[i]:
+                string += str(j)+':<'+str(data[i][j])+'>, '
+            print(sep+str(i), string)
 
 
-def make_inner_format(data):
-    ''' data_prev - first data to find properties in'''
-    print_iv(data)
-    print ('----')
+def make_inner_format(source_data):
+    # print('ORIG DATA')
+    # print_iv(source_data)
+    # print('----')
+
     def inner(data):
         result = {}
-        if isinstance((data), dict):
-            result['children'] =[]
-            for key in data:
-                result['children'].append(inner(data[key]))
-        else:
-            result['value'] = data
+        for key in data:
+            result[key] = {}
+            if isinstance(data[key], dict):
+                result[key]['children'] = inner(data[key])
+            else:
+                result[key]['value'] = data[key]
         return result
-    res = inner(data)
-    print_iv(res)
-    # id_count = 0 if not data_prev else max(data_prev)
-    # result = {}
-    # path = [0]
-    #
-    # def inner(data, id_count, path):
-    #     children_ids = []
-    #     for key in data:
-    #         if data_prev:
-    #             converted_path = []
-    #             for record in path:
-    #                 converted_path.append(get_name(record, data_prev))
-    #             checkin_id = checkin_data(key, converted_path, data_prev) \
-    #                 if data_prev else None
-    #             if not checkin_id:
-    #                 id_count += 1
-    #                 checkin_id = id_count
-    #         else:
-    #             id_count += 1
-    #             checkin_id = id_count
-    #         result[checkin_id] = {}
-    #         result[checkin_id]['name'] = key
-    #         result[checkin_id]['path'] = path.copy()
-    #         children_ids.append(checkin_id)
-    #         if isinstance(data[key], dict):
-    #             new_path = path.copy()
-    #             new_path.append(checkin_id)
-    #             result[checkin_id]['children'], id_count = inner(
-    #                 data[key],
-    #                 id_count,
-    #                 new_path)
-    #         else:
-    #             result[checkin_id]['value'] = data[key]
-    #     return children_ids, id_count
-    #
-    # inner(data, id_count, path)
-    # return result
+
+    return inner(source_data)

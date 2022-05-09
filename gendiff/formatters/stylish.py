@@ -1,4 +1,4 @@
-from gendiff.inner_format import get_records_in_branch, is_dir
+# from gendiff.inner_format import get_records_in_branch, is_dir
 from gendiff.statuses import statuses
 
 stylish_indents = {
