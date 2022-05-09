@@ -27,7 +27,7 @@ def get_old_record(property):
     return property['old']
 
 
-def get_children(root,property_name):
+def get_children(root, property_name):
     if property_name in root.keys():
         if 'children' in root[property_name].keys():
             return root[property_name]['children']
@@ -37,7 +37,6 @@ def get_children(root,property_name):
 
 def status(property, set_status=None):
     # set_status: set status if isset else return existing status
-
     if isinstance(property, dict):
         if set_status:
             property['status'] = statuses[set_status]
@@ -71,10 +70,10 @@ def is_equals(property1, property2):
 
 
 def find_diff(data1, data2):
-    print (data1)
+    # print (data1)
     diff = {}
     for key in data1 | data2:
-        print(key)
+        # print(key)
         diff[key] = data2[key] if key in data2.keys() else data1[key]
         if key not in data2.keys():
             set_status_removed(diff[key])
@@ -83,27 +82,27 @@ def find_diff(data1, data2):
         elif is_equals(data1[key], data2[key]):
             set_status_equals(diff[key])
             if is_dir(diff[key]):
-                diff['children'] = find_diff(get_children(data1, key), get_children(data2, key))
+                diff['children'] = find_diff(
+                    get_children(data1, key),
+                    get_children(data2, key)
+                )
             # set_old_record(diff[key], data1[key])
         else:
             set_status_updated(diff[key])
             set_old_record(diff[key], data1[key])
-
-
-    # print_iv(diff)
     return diff
 
 
-def print_iv(data,sep = ''):
+def print_iv(data, sep=''):
     for i in data:
         if is_dir(data[i]):
-            print(i,':')
-            print_iv(data[i]['children'], sep+' ')
+            print(i, ':')
+            print_iv(data[i]['children'], sep + ' ')
         else:
-            string =''
+            string = ''
             for j in data[i]:
-                string += str(j)+':<'+str(data[i][j])+'>, '
-            print(sep+str(i), string)
+                string += str(j) + ':<' + str(data[i][j]) + '>, '
+            print(sep + str(i), string)
 
 
 def make_inner_format(source_data):
