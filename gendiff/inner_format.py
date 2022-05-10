@@ -25,12 +25,8 @@ def get_old_record(property):
     return property['old']
 
 
-def get_children(root, property_name):
-    if property_name in root.keys():
-        if 'children' in root[property_name].keys():
-            return root[property_name]['children']
-    return {}
-    # return property['children'] if 'children' in property.keys() else {}
+def get_children(property):
+    return property['children'] if 'children' in property.keys() else {}
 
 
 def status(property, set_status=None):
@@ -68,26 +64,26 @@ def is_equals(property1, property2):
 
 
 def find_diff(data1, data2):
-    # print (data1)
-    diff = {}
-    for key in data1 | data2:
+    # print(data1)
+    diff = {'children': {}}
+    children_1 = get_children(data1)
+    children_2 = get_children(data2)
+    keys = children_1 | children_2
+    for key in keys:
         # print(key)
-        diff[key] = data2[key] if key in data2.keys() else data1[key]
-        if key not in data2.keys():
-            set_status_removed(diff[key])
-        elif key not in data1.keys():
-            set_status_added(diff[key])
-        elif is_equals(data1[key], data2[key]):
-            set_status_equals(diff[key])
-            if is_dir(diff[key]):
-                diff['children'] = find_diff(
-                    get_children(data1, key),
-                    get_children(data2, key)
-                )
+        diff['children'][key] = children_2[key] if key in children_2.keys() else children_1[key]
+        if key not in children_2.keys():
+            set_status_removed(diff['children'][key])
+        elif key not in children_1.keys():
+            set_status_added(diff['children'][key])
+        elif is_equals(children_1[key], children_2[key]):
+            set_status_equals(diff['children'][key])
+            if is_dir(diff['children'][key]):
+                diff = find_diff(children_1[key], children_2[key])
             # set_old_record(diff[key], data1[key])
         else:
-            set_status_updated(diff[key])
-            set_old_record(diff[key], data1[key])
+            set_status_updated(diff['children'][key])
+            set_old_record(diff['children'][key], children_1[key])
     return diff
 
 
@@ -103,19 +99,13 @@ def print_iv(data, sep=''):
             print(sep + str(i), string)
 
 
-def make_inner_format(source_data):
-    # print('ORIG DATA')
-    # print_iv(source_data)
-    # print('----')
-
-    def inner(data):
-        result = {}
-        for key in data:
-            result[key] = {}
-            if isinstance(data[key], dict):
-                result[key]['children'] = inner(data[key])
-            else:
-                result[key]['value'] = data[key]
-        return result
-
-    return inner(source_data)
+def make_inner_format(data):
+#if it run - it's mean, that property is dir
+    result = {'children': {}}
+    for name in data:
+        if isinstance(data[name], dict):
+            result['children'][name] = make_inner_format(data[name])
+        else:
+            result['children'][name] = {}
+            result['children'][name]['value'] = data[name]
+    return result

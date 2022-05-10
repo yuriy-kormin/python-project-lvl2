@@ -8,28 +8,45 @@ indents = {
 }
 
 
-def make_format(data):
-    # print(data)
+def make_string(data, name, indent):
+    cur_value = get_value(data)
+    if cur_value:
+        return indent + indents[status(data)] + name + ': ' + get_value(data)
+    return None
 
-    def inner(data, name='', indent=''):
-        print ("---")
-        print(data)
-        cur_value = get_value(data)
-        if cur_value:
-            return normalize_output(cur_value)
+def make_format(data, name='', indent =''):
+    print(data)
+# def inner(data, name='', indent=''):
+    #сюда даются данные и уже inner решает - это просто запись и надо вернуть value или это словарь с детями
+    # print ("---")
+    # print(data)
+    if is_dir(data):
         result = ['{' if not name else indent + name + ': {']
-        for record in data:
-            cur_status = status(data[record])
-            cur_value = get_value(data[record])
-            # cur_children = get_children(data[record])
-            if cur_status in indents:
-                result.append(indents[cur_status]+str(record)+ ': '+ inner(data[record]))
-            else:
-                # for cur_status in (statuses['-'], statuses['+']):
-                result.append(indents[statuses['-']]+str(record)+ ': '+ get_value(get_old_record(data[record])))
-                result.append(indents[statuses['+']] + str(record) + ': ' + get_value(data[record]))
+        children = get_children(data)
+        for child in children:
+            result.append(make_format(children[child], child,  indent))
         result.append(indent+'}')
-        return result
+    else:
+        #это просто запись
+        return make_string(data, name, indent+indents[statuses['=']])
+    return result
+    #
+        # cur_value = get_value(data)
+        # if cur_value:
+        #     return cur_value
+        # result = ['{' if not name else indent + name + ': {']
+        # for record in data:
+        #     cur_status = status(data[record])
+        #     cur_value = get_value(data[record])
+        #     # cur_children = get_children(data[record])
+        #     if cur_status in indents:
+        #         result.append(indents[cur_status]+str(record)+ ': '+ inner(data[record]))
+        #     else:
+        #         # for cur_status in (statuses['-'], statuses['+']):
+        #         result.append(indents[statuses['-']]+str(record)+ ': '+ get_value(get_old_record(data[record])))
+        #         result.append(indents[statuses['+']] + str(record) + ': ' + get_value(data[record]))
+        # result.append(indent+'}')
+        # return result
     return "\n".join(inner(data))
 
 
