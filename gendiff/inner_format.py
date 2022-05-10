@@ -17,8 +17,6 @@ def get_value(property):
     return property['value'] if is_record(property) else None
 
 
-# def get_property(property):
-#     return property
 def set_old_record(property, record):
     property['old'] = record
 

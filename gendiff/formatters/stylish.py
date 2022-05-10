@@ -1,7 +1,7 @@
-from gendiff.inner_format import status, get_children,is_dir,get_value
+from gendiff.inner_format import status, get_children,is_dir,get_value,get_old_record
 from gendiff.statuses import statuses
 
-stylish_indents = {
+indents = {
     statuses['+']: '  + ',
     statuses['-']: '  - ',
     statuses['=']: '    '
@@ -9,20 +9,32 @@ stylish_indents = {
 
 
 def make_format(data):
-    print(data)
+    # print(data)
 
     def inner(data, name='', indent=''):
+        print ("---")
+        print(data)
+        cur_value = get_value(data)
+        if cur_value:
+            return normalize_output(cur_value)
         result = ['{' if not name else indent + name + ': {']
         for record in data:
             cur_status = status(data[record])
-            if cur_status in stylish_indents:
-                result.append(stylish_indents[cur_status]+str(record)+ ': '+ get_value(data[record]) )
+            cur_value = get_value(data[record])
+            # cur_children = get_children(data[record])
+            if cur_status in indents:
+                result.append(indents[cur_status]+str(record)+ ': '+ inner(data[record]))
+            else:
+                # for cur_status in (statuses['-'], statuses['+']):
+                result.append(indents[statuses['-']]+str(record)+ ': '+ get_value(get_old_record(data[record])))
+                result.append(indents[statuses['+']] + str(record) + ': ' + get_value(data[record]))
         result.append(indent+'}')
         return result
     return "\n".join(inner(data))
 
 
 def normalize_output(data):
+    print("normalize :",data)
     answer = ''
     if type(data) is bool:
         answer = str(data).lower()
@@ -30,7 +42,7 @@ def normalize_output(data):
         answer = 'null'
     else:
         answer = str(data)
-    return ' ' + answer if len(answer) else ''
+    return answer if len(answer) else ''
 
 #
 # def is_change_type_to(data):
