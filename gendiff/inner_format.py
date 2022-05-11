@@ -30,27 +30,12 @@ def get_children(property):
 
 
 def status(property, set_status=None):
+
     # set_status: set status if isset else return existing status
     if isinstance(property, dict):
-        if set_status:
+        if set_status and set_status in statuses:
             property['status'] = statuses[set_status]
         return property['status'] if 'status' in property.keys() else None
-
-
-def set_status_removed(property):
-    status(property, set_status='-')
-
-
-def set_status_added(property):
-    status(property, set_status='+')
-
-
-def set_status_equals(property):
-    status(property, set_status='=')
-
-
-def set_status_updated(property):
-    status(property, set_status='!=')
 
 
 def is_equals(property1, property2):
@@ -74,15 +59,15 @@ def find_diff(data1, data2):
         diff['children'][key] = children_2[key] if key in children_2.keys() \
             else children_1[key]
         if key not in children_2.keys():
-            set_status_removed(diff['children'][key])
+            status(diff['children'][key], set_status='-')
         elif key not in children_1.keys():
-            set_status_added(diff['children'][key])
+            status(diff['children'][key], set_status='+')
         elif is_equals(children_1[key], children_2[key]):
-            set_status_equals(diff['children'][key])
+            status(diff['children'][key], set_status='=')
             if is_dir(diff['children'][key]):
                 diff = find_diff(children_1[key], children_2[key])
         else:
-            set_status_updated(diff['children'][key])
+            status(diff['children'][key], set_status='!=')
             set_old_record(diff['children'][key], children_1[key])
     return diff
 
