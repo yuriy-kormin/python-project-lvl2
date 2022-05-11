@@ -64,14 +64,15 @@ def is_equals(property1, property2):
 
 
 def find_diff(data1, data2):
-    # print(data1)
+    # print ('diff ---  ')
+    # print (data2)
     diff = {'children': {}}
     children_1 = get_children(data1)
     children_2 = get_children(data2)
     keys = children_1 | children_2
     for key in keys:
-        # print(key)
-        diff['children'][key] = children_2[key] if key in children_2.keys() else children_1[key]
+        diff['children'][key] = children_2[key] if key in children_2.keys() \
+            else children_1[key]
         if key not in children_2.keys():
             set_status_removed(diff['children'][key])
         elif key not in children_1.keys():
@@ -80,27 +81,13 @@ def find_diff(data1, data2):
             set_status_equals(diff['children'][key])
             if is_dir(diff['children'][key]):
                 diff = find_diff(children_1[key], children_2[key])
-            # set_old_record(diff[key], data1[key])
         else:
             set_status_updated(diff['children'][key])
             set_old_record(diff['children'][key], children_1[key])
     return diff
 
 
-def print_iv(data, sep=''):
-    for i in data:
-        if is_dir(data[i]):
-            print(i, ':')
-            print_iv(data[i]['children'], sep + ' ')
-        else:
-            string = ''
-            for j in data[i]:
-                string += str(j) + ':<' + str(data[i][j]) + '>, '
-            print(sep + str(i), string)
-
-
 def make_inner_format(data):
-#if it run - it's mean, that property is dir
     result = {'children': {}}
     for name in data:
         if isinstance(data[name], dict):
