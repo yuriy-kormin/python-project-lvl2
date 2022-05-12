@@ -29,13 +29,16 @@ def get_value(property):
 def set_old_record(property, record):
     property['old'] = record
 
-
 def get_old_record(property):
     return property['old'] if 'old' in property.keys() else None
 
 
 def get_children(property):
     return property['children'] if isinstance(property, list) else []
+
+
+def set_children(property, children):
+    property['children'] = children
 
 
 def get_status(property):
@@ -53,19 +56,19 @@ def get_id_by_name(name, list_properties):
             return i
 
 
-def is_equals(property1, property2):
-    if is_dir(property1):
-        return True if is_dir(property2) else False
-    elif is_record(property2) and get_value(property1) == get_value(property2):
-        return True
-    return False
+def is_equals(*properties):
+    # if is_dir(property1):
+    #     return True if is_dir(property2) else False
+    # elif is_record(property2) and get_value(property1) == get_value(property2):
+    #     return True
+    # return False
 
-    properties = (property1, property2)
-    if all(map(is_dir, properties)):
+    # properties = (property1, property2)
+    if all(map(is_dir, properties)) or (all(map(is_record, properties)) and\
+                                        all(x == get_value(properties[0])
+                                            for x in map(get_value, properties))
+                                        ):
         return True
-    elif all(map(is_record, properties)):
-        if get_value(property1) == get_value(property2):
-            return True
     return False
 
 
@@ -73,39 +76,25 @@ def find_diff(data1, data2):
     print("data1 inner:", data1, '\n\n')
     print("data2 inner:", data2, '\n\n')
     diff = []
-    ids_in_data2 = [i for i in range(len(data2))]
-    for i, child in enumerate(data1):
+    ids_in_data1 = [i for i in range(len(data1))]
+    for i, child in enumerate(data2):
         diff.append(child)
-        id_in_data2 = get_id_by_name(get_name(child), data2)
-        if id_in_data2 is not None:
-            ids_in_data2.pop(id_in_data2)
-            if is_equals(child, data2[id_in_data2]):
-                set_status(diff[i], '=')
-            else:
-                set_status(diff[i], '!=')
-                print ("set old ",child)
-                set_old_record(diff[i], child)
+        id_in_data1 = get_id_by_name(get_name(child), data1)
+        if id_in_data1 is None:
+            set_status(diff[i], '+')
         else:
-            set_status(diff[i], '-')
-    for i in ids_in_data2:
-        cur_property = (data2[i])
-        set_status(cur_property, '+')
+            ids_in_data1.pop(id_in_data1)
+            if is_equals(child, data1[id_in_data1]):
+                set_status(diff[i], '=')
+                if is_dir(diff[i]):
+                    set_children(diff[i],find_diff(data1[id_in_data1],get_children(diff[i])))
+            else:
+                set_old_record(diff[i], data1[id_in_data1])
+                set_status(diff[i], '!=')
+    for i in ids_in_data1:
+        cur_property = (data1[i])
+        set_status(cur_property, '-')
         diff.append(cur_property)
-        # diff.append()
-        # # print(key)
-        # diff['children'][key] = children_2[key] if key in children_2.keys() else children_1[key]
-        # if key not in children_2.keys():
-        #     set_status_removed(diff['children'][key])
-        # elif key not in children_1.keys():
-        #     set_status_added(diff['children'][key])
-        # elif is_equals(children_1[key], children_2[key]):
-        #     set_status_equals(diff['children'][key])
-        #     if is_dir(diff['children'][key]):
-        #         diff = find_diff(children_1[key], children_2[key])
-        #     # set_old_record(diff[key], data1[key])
-        # else:
-        #     set_status_updated(diff['children'][key])
-        #     set_old_record(diff['children'][key], children_1[key])
     return diff
 
 
