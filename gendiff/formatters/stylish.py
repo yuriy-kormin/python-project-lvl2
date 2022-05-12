@@ -1,4 +1,4 @@
-from gendiff.inner_format import status, get_children,is_dir,get_value,get_old_record
+from gendiff.inner_format import get_status as status, get_children,is_dir,get_value,get_old_record
 from gendiff.statuses import statuses
 
 indents = {
@@ -15,7 +15,7 @@ def make_string(data, name, indent):
     return None
 
 def make_format(data, name='', indent =''):
-    print(data)
+    print(sorted(data, key = lambda v: v['name']))
 # def inner(data, name='', indent=''):
     #сюда даются данные и уже inner решает - это просто запись и надо вернуть value или это словарь с детями
     # print ("---")
