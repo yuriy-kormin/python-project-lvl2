@@ -29,12 +29,13 @@ def get_value(property):
 def set_old_record(property, record):
     property['old'] = record
 
+
 def get_old_record(property):
     return property['old'] if 'old' in property.keys() else None
 
 
 def get_children(property):
-    return property['children'] if isinstance(property, list) else []
+    return property['children'] if 'children' in property.keys() else []
 
 
 def set_children(property, children):
@@ -57,42 +58,39 @@ def get_id_by_name(name, list_properties):
 
 
 def is_equals(*properties):
-    # if is_dir(property1):
-    #     return True if is_dir(property2) else False
-    # elif is_record(property2) and get_value(property1) == get_value(property2):
-    #     return True
-    # return False
-
-    # properties = (property1, property2)
-    if all(map(is_dir, properties)) or (all(map(is_record, properties)) and\
-                                        all(x == get_value(properties[0])
-                                            for x in map(get_value, properties))
-                                        ):
+    if all(map(is_dir, properties)) or \
+            (all(map(is_record, properties))
+             and all(x == get_value(properties[0])
+                     for x in map(get_value, properties))):
         return True
     return False
 
 
 def find_diff(data1, data2):
-    print("data1 inner:", data1, '\n\n')
-    print("data2 inner:", data2, '\n\n')
+    # print("data1 inner:", data1)
+    # print("data2 inner:", data2,"\n")
     diff = []
     ids_in_data1 = [i for i in range(len(data1))]
+    # print ('ids is ',ids_in_data1)
     for i, child in enumerate(data2):
-        diff.append(child)
+        diff.append(child.copy())
         id_in_data1 = get_id_by_name(get_name(child), data1)
+        # print (get_name(child),id_in_data1)
         if id_in_data1 is None:
             set_status(diff[i], '+')
         else:
-            ids_in_data1.pop(id_in_data1)
+            ids_in_data1.remove(id_in_data1)
             if is_equals(child, data1[id_in_data1]):
                 set_status(diff[i], '=')
                 if is_dir(diff[i]):
-                    set_children(diff[i],find_diff(data1[id_in_data1],get_children(diff[i])))
+                    set_children(diff[i],
+                                 find_diff(get_children(data1[id_in_data1]),
+                                           get_children(child)))
             else:
                 set_old_record(diff[i], data1[id_in_data1])
                 set_status(diff[i], '!=')
     for i in ids_in_data1:
-        cur_property = (data1[i])
+        cur_property = (data1[i].copy())
         set_status(cur_property, '-')
         diff.append(cur_property)
     return diff
