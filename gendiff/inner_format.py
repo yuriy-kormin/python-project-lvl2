@@ -64,7 +64,8 @@ def is_equals(property1, property2):
 
 
 def find_diff(data1, data2):
-    # print(data1)
+    print("data1 inner:", data1,'\n\n')
+    print("data2 inner:", data2,'\n\n')
     diff = {'children': {}}
     children_1 = get_children(data1)
     children_2 = get_children(data2)
@@ -101,11 +102,11 @@ def print_iv(data, sep=''):
 
 def make_inner_format(data):
 #if it run - it's mean, that property is dir
-    result = {'children': {}}
-    for name in data:
+    result = []
+    for i, name in enumerate(data):
+        result.append({'name': name})
         if isinstance(data[name], dict):
-            result['children'][name] = make_inner_format(data[name])
+            result[i]['children'] = make_inner_format(data[name])
         else:
-            result['children'][name] = {}
-            result['children'][name]['value'] = data[name]
+            result[i]['value'] = data[name]
     return result
