@@ -1,4 +1,4 @@
-from gendiff.inner_format import get_status as status, get_children,is_dir,get_value,get_old_record
+from gendiff.inner_format import get_status, get_name, get_children, is_record, get_value, get_old_record
 from gendiff.statuses import statuses
 
 indents = {
@@ -8,50 +8,58 @@ indents = {
 }
 
 
-def make_string(data, name, indent):
-    cur_value = get_value(data)
-    if cur_value:
-        return indent + indents[status(data)] + name + ': ' + get_value(data)
+def make_string(data, indent, first_string=False, last_string=False):
+    if last_string:
+        return indent + '}'
+    name = get_name(data)
+    status = get_status(data)
+    value = '{' if first_string else get_value(data)
+    if status != statuses['!=']:
+        states = {indents[status]: value}
+    else:
+        states = {indents[statuses['-']]:value}
+        return indent + indents[status] + name + ': ' + value
     return None
 
-def make_format(data, name='', indent =''):
-    print(sorted(data, key = lambda v: v['name']))
-# def inner(data, name='', indent=''):
-    #сюда даются данные и уже inner решает - это просто запись и надо вернуть value или это словарь с детями
-    # print ("---")
-    # print(data)
-    if is_dir(data):
-        result = ['{' if not name else indent + name + ': {']
-        children = get_children(data)
-        for child in children:
-            result.append(make_format(children[child], child,  indent))
-        result.append(indent+'}')
+
+def make_format(data, indent=''):
+    # if data is list - its dir, else record
+    # print(sorted(data, key = lambda v: v['name']))
+    if is_record(data):
+        print('is record', data)
+        return make_string(data, indent)
     else:
-        #это просто запись
-        return make_string(data, name, indent+indents[statuses['=']])
-    return result
+        print('is dir', data)
+        result = ['{']
+        # sorted_data = sorted(data, key= lambda v: v['name'])
+        for property in data:
+            print(result)
+            result.extend(make_format(property, indent))
+            print(result)
+        result.append(indent + '}')
+    # return result
     #
-        # cur_value = get_value(data)
-        # if cur_value:
-        #     return cur_value
-        # result = ['{' if not name else indent + name + ': {']
-        # for record in data:
-        #     cur_status = status(data[record])
-        #     cur_value = get_value(data[record])
-        #     # cur_children = get_children(data[record])
-        #     if cur_status in indents:
-        #         result.append(indents[cur_status]+str(record)+ ': '+ inner(data[record]))
-        #     else:
-        #         # for cur_status in (statuses['-'], statuses['+']):
-        #         result.append(indents[statuses['-']]+str(record)+ ': '+ get_value(get_old_record(data[record])))
-        #         result.append(indents[statuses['+']] + str(record) + ': ' + get_value(data[record]))
-        # result.append(indent+'}')
-        # return result
-    return "\n".join(inner(data))
+    # cur_value = get_value(data)
+    # if cur_value:
+    #     return cur_value
+    # result = ['{' if not name else indent + name + ': {']
+    # for record in data:
+    #     cur_status = status(data[record])
+    #     cur_value = get_value(data[record])
+    #     # cur_children = get_children(data[record])
+    #     if cur_status in indents:
+    #         result.append(indents[cur_status]+str(record)+ ': '+ inner(data[record]))
+    #     else:
+    #         # for cur_status in (statuses['-'], statuses['+']):
+    #         result.append(indents[statuses['-']]+str(record)+ ': '+ get_value(get_old_record(data[record])))
+    #         result.append(indents[statuses['+']] + str(record) + ': ' + get_value(data[record]))
+    # result.append(indent+'}')
+    # return result
+    return "\n".join(result)
 
 
 def normalize_output(data):
-    print("normalize :",data)
+    print("normalize :", data)
     answer = ''
     if type(data) is bool:
         answer = str(data).lower()

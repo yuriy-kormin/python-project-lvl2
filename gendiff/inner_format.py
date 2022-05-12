@@ -67,15 +67,11 @@ def is_equals(*properties):
 
 
 def find_diff(data1, data2):
-    # print("data1 inner:", data1)
-    # print("data2 inner:", data2,"\n")
     diff = []
     ids_in_data1 = [i for i in range(len(data1))]
-    # print ('ids is ',ids_in_data1)
     for i, child in enumerate(data2):
         diff.append(child.copy())
         id_in_data1 = get_id_by_name(get_name(child), data1)
-        # print (get_name(child),id_in_data1)
         if id_in_data1 is None:
             set_status(diff[i], '+')
         else:
@@ -96,20 +92,7 @@ def find_diff(data1, data2):
     return diff
 
 
-def print_iv(data, sep=''):
-    for i in data:
-        if is_dir(data[i]):
-            print(i, ':')
-            print_iv(data[i]['children'], sep + ' ')
-        else:
-            string = ''
-            for j in data[i]:
-                string += str(j) + ':<' + str(data[i][j]) + '>, '
-            print(sep + str(i), string)
-
-
 def make_inner_format(data):
-    # if it run - it's mean, that property is dir
     result = []
     for i, name in enumerate(data):
         result.append({'name': name})
