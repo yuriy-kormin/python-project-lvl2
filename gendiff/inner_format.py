@@ -4,6 +4,7 @@ from gendiff.statuses import statuses
 def get_name(property):
     if isinstance(property, dict) and 'name' in property.keys():
         return property['name']
+    return ''
 
 
 def get_names(list_properties):
@@ -26,6 +27,11 @@ def get_value(property):
     return property['value'] if is_record(property) else None
 
 
+def set_value(property, value):
+    if is_record(property):
+        property['value'] = value
+
+
 def set_old_record(property, record):
     property['old'] = record
 
@@ -34,8 +40,13 @@ def get_old_record(property):
     return property['old'] if 'old' in property.keys() else None
 
 
-def get_children(property):
-    return property['children'] if 'children' in property.keys() else []
+def get_children(property, sorted_ = False):
+    if is_dir(property):
+        result = property['children']
+    elif isinstance(property, list):
+        result = property
+    print ('we find children: ',result)
+    return sorted(result, key=lambda x: x['name']) if sorted_ else result
 
 
 def set_children(property, children):
@@ -43,7 +54,7 @@ def set_children(property, children):
 
 
 def get_status(property):
-    return property['status'] if 'status' in property.keys() else None
+    return property['status'] if 'status' in property.keys() else ''
 
 
 def set_status(property, status):

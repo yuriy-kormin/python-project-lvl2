@@ -1,60 +1,59 @@
-from gendiff.inner_format import get_status, get_name, get_children, is_record, get_value, get_old_record
+from gendiff.inner_format import get_status, get_name, get_children, is_record, is_dir, get_value, set_value, \
+    get_old_record, \
+    set_status, set_children
 from gendiff.statuses import statuses
 
 indents = {
     statuses['+']: '  + ',
     statuses['-']: '  - ',
-    statuses['=']: '    '
+    statuses['=']: '    ',
+    '': ''
 }
 
 
-def make_string(data, indent, first_string=False, last_string=False):
-    if last_string:
-        return indent + '}'
+def make_string(data, indent):
+    value = get_value(data)
     name = get_name(data)
-    status = get_status(data)
-    value = '{' if first_string else get_value(data)
-    if status != statuses['!=']:
-        states = {indents[status]: value}
-    else:
-        states = {indents[statuses['-']]:value}
-        return indent + indents[status] + name + ': ' + value
-    return None
+    # status = get_status(data) if get_status(data) else ''
+    return indent + get_indent(data)[0] + name + ': ' + value
+    # return None
 
 
-def make_format(data, indent=''):
+def get_indent(property):
+    cur_status = get_status(property)
+    if cur_status in statuses.values():
+        return [indents[cur_status]]
+    return [indents[statuses['=']],
+            indents[statuses['+']]]
+
+
+def make_first_string(data, indent):
+    print ('make first string to ',data)
+    if not is_record(data) and not is_dir(data):
+        # its mean, that this property is root
+        return "{"
+    elif is_dir(data):
+        return indent + get_indent(data)[0] + get_name(data) + ': {'
+
+
+def make_format(data, level = -1):
+    indent = level * '    '
     # if data is list - its dir, else record
     # print(sorted(data, key = lambda v: v['name']))
+    # print ('make format to ',data)
     if is_record(data):
-        print('is record', data)
         return make_string(data, indent)
     else:
-        print('is dir', data)
-        result = ['{']
-        # sorted_data = sorted(data, key= lambda v: v['name'])
-        for property in data:
-            print(result)
-            result.extend(make_format(property, indent))
-            print(result)
+        # this is dir
+        children = get_children(data, sorted_=True)
+        # status = get_status(data)
+        result = [make_first_string(data, indent)]
+        for property in children:
+            # print(result)
+            result.append(make_format(property, level+1))
+            # print (result)
         result.append(indent + '}')
-    # return result
-    #
-    # cur_value = get_value(data)
-    # if cur_value:
-    #     return cur_value
-    # result = ['{' if not name else indent + name + ': {']
-    # for record in data:
-    #     cur_status = status(data[record])
-    #     cur_value = get_value(data[record])
-    #     # cur_children = get_children(data[record])
-    #     if cur_status in indents:
-    #         result.append(indents[cur_status]+str(record)+ ': '+ inner(data[record]))
-    #     else:
-    #         # for cur_status in (statuses['-'], statuses['+']):
-    #         result.append(indents[statuses['-']]+str(record)+ ': '+ get_value(get_old_record(data[record])))
-    #         result.append(indents[statuses['+']] + str(record) + ': ' + get_value(data[record]))
-    # result.append(indent+'}')
-    # return result
+
     return "\n".join(result)
 
 
@@ -68,82 +67,3 @@ def normalize_output(data):
     else:
         answer = str(data)
     return answer if len(answer) else ''
-
-#
-# def is_change_type_to(data):
-#     keys = data.keys()
-#     if 'change_type_to' in keys:
-#         return data['change_type_to']
-#     return None
-#
-#
-# def make_string(dict_, closed_line=False, mark=True):
-#     result = []
-#     level = len(dict_['path']) - 1
-#     if closed_line:
-#         result.append(stylish_indents[statuses['=']] * level + '}')
-#     else:
-#         if dict_['diff'] == statuses['!=']:
-#             for diff_key in (statuses['-'], statuses['+']):
-#                 dict_['diff'] = diff_key
-#                 if not is_change_type_to(dict_):
-#                     if diff_key == statuses['-']:
-#                         dict_['value'] = dict_['old_value']
-#                     else:
-#                         dict_['value'] = dict_['new_value']
-#                 result.extend(make_string(dict_, False, mark))
-#         else:
-#             value = '{' if is_dir(False, dict_) else dict_['value']
-#             spaces = stylish_indents[dict_['diff']] if mark \
-#                 else stylish_indents[statuses['=']]
-#             string_begin = stylish_indents[statuses['=']] * level \
-#                 + spaces + dict_['name'] + ":" + make_out_format(value)
-#             result.append(string_begin)
-#     return result
-#
-#
-# def make_format(data):
-#     def inner(id, data, mark=True):
-#         mark_status = mark
-#         result = []
-#         result.append('{') if id == 0 else None
-#         records = get_records_in_branch(id, data, sort_by_name=True)
-#         for child in records:
-#             if is_change_type_to(records[child]) == 'dir':
-#                 records[child]['value'] = records[child]['old_value']
-#                 records[child]['diff'] = statuses['-']
-#                 result.extend(make_string(records[child], mark=mark_status))
-#                 records[child].pop('value')
-#                 records[child]['children'] = records[child]['new_children']
-#                 records[child]['diff'] = statuses['+']
-#                 result.extend(make_string(records[child], mark=mark_status))
-#                 mark_status = False
-#                 result.extend(inner(child, data, mark=mark_status))
-#                 records[child].pop('children')
-#                 mark_status = mark
-#             elif is_change_type_to(records[child]) == 'value':
-#                 records[child]['children'] = records[child]['old_children']
-#                 records[child]['diff'] = statuses['-']
-#                 result.extend(make_string(records[child], mark=mark_status))
-#                 mark_status = False
-#                 result.extend(inner(child, data, mark=mark_status))
-#                 mark_status = mark
-#                 records[child].pop('children')
-#                 records[child]['value'] = records[child]['new_value']
-#                 records[child]['diff'] = statuses['+']
-#                 result.extend(make_string(records[child], mark=mark_status))
-#                 records[child].pop('value')
-#                 mark_status = mark
-#             else:
-#                 result.extend(make_string(records[child], mark=mark_status))
-#             if is_dir(False, records[child]):
-#                 if records[child]['diff'] != statuses['=']:
-#                     mark_status = False
-#                 result.extend(inner(child, data, mark=mark_status))
-#                 mark_status = mark
-#         result.extend(
-#             make_string(records[child], closed_line=True, mark=mark_status))
-#         return result
-#
-#     res = inner(0, data)
-#     return "\n".join(res)
