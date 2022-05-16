@@ -1,6 +1,5 @@
 from gendiff.inner_format import get_status, get_name, get_children, \
-    is_record, is_dir, get_value, set_value, get_old_record, \
-    set_status, set_children
+    is_record, is_dir, get_value, get_old_record
 from gendiff.statuses import statuses
 
 indents = {
@@ -42,7 +41,7 @@ def get_indent(property, level, last=False):
 
 
 def make_format(data='', level=-1):
-    print ("\nnew make_format\n", data, level)
+    # print ("\nnew make_format\n", data, level)
     children = get_children(data, sorted_=True)
     level += 1
     if len(children) > 0:
