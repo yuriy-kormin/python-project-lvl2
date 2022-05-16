@@ -38,8 +38,8 @@ def set_old_record(property, record):
 
 def get_old_record(property):
     if 'old' in property.keys():
-        result = {get_name(property)}
-        result.append(property['old'])
+        result = property['old'].copy()
+        # result = {'name': get_name(property)}
         set_status(result, '-')
         return result
 
@@ -47,9 +47,9 @@ def get_old_record(property):
 def get_children(property, sorted_ = False):
     if is_dir(property):
         result = property['children'] if 'children' in property.keys() else []
-    elif isinstance(property, list):
+    elif is_record(property) or isinstance(property, list):
         result = property
-    print ('we find children: ',result)
+    # print ('we find children: ',result)
     return sorted(result, key=lambda x: x['name']) if sorted_ else result
 
 
