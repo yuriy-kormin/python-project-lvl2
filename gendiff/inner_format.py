@@ -12,15 +12,15 @@ def get_names(list_properties):
 
 
 def is_dir(property):
-    if isinstance(property, dict) and 'children' in property.keys():
-        return True
-    return False
+    return isinstance(property, dict) and 'children' in property.keys()
+    #     return True
+    # return False
 
 
 def is_record(property):
-    if isinstance(property, dict) and 'value' in property.keys():
-        return True
-    return False
+    return isinstance(property, dict) and 'value' in property.keys()
+    #     return True
+    # return False
 
 
 def get_value(property):
@@ -39,17 +39,17 @@ def set_old_record(property, record):
 def get_old_record(property):
     if 'old' in property.keys():
         result = property['old'].copy()
-        # result = {'name': get_name(property)}
         set_status(result, '-')
         return result
 
 
 def get_children(property, sorted_ = False):
+    print ('get children for', property)
     if is_dir(property):
-        result = property['children'] if 'children' in property.keys() else []
-    elif is_record(property) or isinstance(property, list):
+        result = property['children']
+    elif is_record(property) or isinstance(property,list):
         result = property
-    # print ('we find children: ',result)
+    # print ('result is ',result)
     return sorted(result, key=lambda x: x['name']) if sorted_ else result
 
 

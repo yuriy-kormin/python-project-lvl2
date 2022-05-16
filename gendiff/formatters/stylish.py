@@ -27,22 +27,22 @@ def make_string(data, level, first=False, last=False):
 
 def get_indent(property, level, last=False):
     if last:
-        return (level) * indents['']
+        return level * indents['']
     cur_status = get_status(property)
     cur_indent = level * indents['']
     if cur_status in indents:
         return cur_indent + indents[cur_status]
     # this block executes, if value was updated
-    result = []
-    old_record = get_old_record(property)
-    tmp = make_format(old_record, level-1)
-    result.append(tmp)
+    # result = []
+    old_record = [get_old_record(property)]
+    # tmp =
+    result = [make_format(old_record, level-1)]
     result.append(cur_indent + indents[statuses['+']])
     return "\n".join(result)
 
 
-def make_format(data, level=-1):
-    # print ("\nnew make_format\n", data, level)
+def make_format(data='', level=-1):
+    print ("\nnew make_format\n", data, level)
     children = get_children(data, sorted_=True)
     level += 1
     if len(children) > 0:
@@ -55,6 +55,8 @@ def make_format(data, level=-1):
         result.append(make_string(data, level, last=True))
     else:
         result = ['{', '}']
+        # return result
+    # result = inner (data,level)
     # print('result is ', result)
     return "\n".join(result)
 
