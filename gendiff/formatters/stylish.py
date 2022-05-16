@@ -11,27 +11,29 @@ indents = {
 }
 
 
-def make_string(data='', indent='', first=False, last=False):
-    print('make string    data=', data, '\nindent=', indent, '|')
+def make_string(data, level, first=False, last=False):
+    print('make string    data=', data, '\nlevel=', level)
     if first:
         print('make first string')
         if not is_record(data) and not is_dir(data):
             # its mean, that this property is root
             return "{"
         elif is_dir(data):
-            return indent + get_name(data) + ': {'
+            return get_indent(data,level-1) + get_name(data) + ': {'
     if last:
-        return indent + '}'
-    value = get_value(data)
+        return get_indent(data, level, last=True) + '}'
+    value = normalize_output(get_value(data))
     name = get_name(data)
-    return indent + name + ': ' + value
+    return get_indent(data,level) + name + ': ' + value
 
 
-def get_indent(property, level):
+def get_indent(property, level, last=False):
+    if last:
+        return (level) * indents['']
     print('get indent to ', property)
     cur_status = get_status(property)
     print('get_status is \'' + cur_status + '\'')
-    cur_indent = level * '    '
+    cur_indent = level * indents['']
     if cur_status in indents:
         return cur_indent + indents[cur_status]
     return cur_indent + '$$$$'
@@ -39,17 +41,20 @@ def get_indent(property, level):
 
 def make_format(data, level=-1):
     children = get_children(data, sorted_=True)
+    level += 1
     if len(children) > 0:
-        result = [make_string(data, get_indent(data, level), first=True)]
+        result = [make_string(data,level, first=True)]
         for child in children:
             print('working with child', get_name(child))
+            print('result is ', result)
             if is_record(child):
-                result.append(make_string(child, get_indent(child, level+1)))
+                result.append(make_string(child, level))
             else:
-                result.append(make_format(child, level+1))
-        result.append(make_string(data, (level+1)*"    ", last=True))
+                result.append(make_format(child, level))
+        result.append(make_string(data,level, last=True))
     else:
         result = ['{', '}']
+    print ('result is ', result)
     return "\n".join(result)
 
 

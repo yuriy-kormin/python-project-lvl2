@@ -3,7 +3,7 @@ from gendiff.statuses import statuses
 
 def get_name(property):
     if isinstance(property, dict) and 'name' in property.keys():
-        return property['name']
+        return str(property['name'])
     return ''
 
 
