@@ -46,7 +46,7 @@ def get_old_record(property):
 
 def get_children(property, sorted_ = False):
     if is_dir(property):
-        result = property['children']
+        result = property['children'] if 'children' in property.keys() else []
     elif isinstance(property, list):
         result = property
     print ('we find children: ',result)
@@ -58,7 +58,9 @@ def set_children(property, children):
 
 
 def get_status(property):
-    return property['status'] if 'status' in property.keys() else ''
+    if isinstance(property, dict):
+        return property['status'] if 'status' in property.keys() else ''
+    return ''
 
 
 def set_status(property, status):
