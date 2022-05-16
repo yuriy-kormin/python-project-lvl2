@@ -37,7 +37,11 @@ def set_old_record(property, record):
 
 
 def get_old_record(property):
-    return property['old'] if 'old' in property.keys() else None
+    if 'old' in property.keys():
+        result = {get_name(property)}
+        result.append(property['old'])
+        set_status(result, '-')
+        return result
 
 
 def get_children(property, sorted_ = False):
