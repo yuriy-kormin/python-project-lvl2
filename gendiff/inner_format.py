@@ -43,11 +43,11 @@ def get_old_record(property):
         return result
 
 
-def get_children(property, sorted_ = False):
-    print ('get children for', property)
+def get_children(property, sorted_=False):
+    # print ('get children for', property)
     if is_dir(property):
         result = property['children']
-    elif is_record(property) or isinstance(property,list):
+    elif is_record(property) or isinstance(property, list):
         result = property
     # print ('result is ',result)
     return sorted(result, key=lambda x: x['name']) if sorted_ else result
