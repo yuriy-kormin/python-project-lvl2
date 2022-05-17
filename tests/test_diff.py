@@ -22,8 +22,8 @@ out_files_plain = (
     'tests/fixtures/output_flat_plain.txt',
     'tests/fixtures/output_plain.txt',
     'tests/fixtures/output_nested_plain_yml.txt',
-    'tests/fixtures/empty.yaml',
-    'tests/fixtures/empty.yaml'
+    'tests/fixtures/empty_out.txt',
+    'tests/fixtures/empty_out.txt'
 )
 
 test_stylish = ((y, out_files_stylish[x]) for x, y in enumerate(checking_files))
