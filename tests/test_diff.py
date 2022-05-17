@@ -5,19 +5,25 @@ checking_files = (
     ('tests/fixtures/file1.yml', 'tests/fixtures/file2.yml'),
     ('tests/fixtures/file1.json', 'tests/fixtures/file2.json'),
     ('tests/fixtures/file1_nested.json', 'tests/fixtures/file2_nested.json'),
-    ('tests/fixtures/file1_nested.yml', 'tests/fixtures/file2_nested.yml')
+    ('tests/fixtures/file1_nested.yml', 'tests/fixtures/file2_nested.yml'),
+    ('tests/fixtures/empty.yaml', 'tests/fixtures/empty.yaml'),
+    ('tests/fixtures/empty.json', 'tests/fixtures/empty.json')
 )
 out_files_stylish = (
     'tests/fixtures/output.txt',
     'tests/fixtures/output.txt',
     'tests/fixtures/output_nested.json',
-    'tests/fixtures/out_nested.yml'
+    'tests/fixtures/out_nested.yml',
+    'tests/fixtures/empty.yaml',
+    'tests/fixtures/empty.json'
 )
 out_files_plain = (
     'tests/fixtures/output_flat_plain.txt',
     'tests/fixtures/output_flat_plain.txt',
     'tests/fixtures/output_plain.txt',
-    'tests/fixtures/output_nested_plain_yml.txt'
+    'tests/fixtures/output_nested_plain_yml.txt',
+    'tests/fixtures/empty.yaml',
+    'tests/fixtures/empty.yaml'
 )
 
 test_stylish = ((y, out_files_stylish[x]) for x, y in enumerate(checking_files))
