@@ -30,17 +30,13 @@ def get_indent(property, level, last=False):
         return cur_indent + indents[cur_status]
     # this block executes, if value was updated
     old_record = [get_old_record(property)]
-    # result = [make]
     result = make_block(old_record, level-1)
     result.append(cur_indent + indents[statuses['+']])
-    # print ('result for updated is ', result)
     return "\n".join(result)
 
 
 def make_block(data, level):
-    # print ("\nnew make_format\n", data, level)
     children = get_children(data, sorted_=True)
-    # print('children is ', children)
     level += 1
     result = []
     if len(children) > 0:

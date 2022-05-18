@@ -13,14 +13,10 @@ def get_names(list_properties):
 
 def is_dir(property):
     return isinstance(property, dict) and 'children' in property.keys()
-    #     return True
-    # return False
 
 
 def is_record(property):
     return isinstance(property, dict) and 'value' in property.keys()
-    #     return True
-    # return False
 
 
 def get_value(property):
@@ -44,12 +40,10 @@ def get_old_record(property):
 
 
 def get_children(property, sorted_=False):
-    # print ('get children for', property)
     if is_dir(property):
         result = property['children']
     elif is_record(property) or isinstance(property, list):
         result = property
-    # print ('result is ',result)
     return sorted(result, key=lambda x: x['name']) if sorted_ else result
 
 
