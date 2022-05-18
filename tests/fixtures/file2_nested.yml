@@ -6,7 +6,6 @@
      "vip": "supersite_superzone",
     },
     "protocol": "https",
-
     "setting_users": {
       "name": "sid",
       "pos":"manager",
