@@ -3,19 +3,19 @@ from gendiff import generate_diff
 
 checking_files = (
     ('tests/fixtures/file1.yml', 'tests/fixtures/file2.yml'),
-    ('tests/fixtures/file1.json', 'tests/fixtures/file2.json'),
-    ('tests/fixtures/file1_nested.json', 'tests/fixtures/file2_nested.json'),
+    ('tests/fixtures/file1.nested', 'tests/fixtures/file2.nested'),
+    ('tests/fixtures/file1_nested.nested', 'tests/fixtures/file2_nested.nested'),
     ('tests/fixtures/file1_nested.yml', 'tests/fixtures/file2_nested.yml'),
-    ('tests/fixtures/empty.yaml', 'tests/fixtures/empty.yaml'),
-    ('tests/fixtures/empty.json', 'tests/fixtures/empty.json')
+    ('tests/fixtures/nested.yaml', 'tests/fixtures/nested.yaml'),
+    ('tests/fixtures/nested.nested', 'tests/fixtures/nested.nested')
 )
 out_files_stylish = (
-    'tests/fixtures/output.txt',
-    'tests/fixtures/output.txt',
-    'tests/fixtures/output_nested.json',
+    'tests/fixtures/output_stylish.txt',
+    'tests/fixtures/output_stylish.txt',
+    'tests/fixtures/output_nested.nested',
     'tests/fixtures/out_nested.yml',
-    'tests/fixtures/empty.yaml',
-    'tests/fixtures/empty.json'
+    'tests/fixtures/nested.yaml',
+    'tests/fixtures/nested.nested'
 )
 out_files_plain = (
     'tests/fixtures/output_flat_plain.txt',
@@ -39,11 +39,11 @@ def right_result(path):
 
 @pytest.mark.parametrize('file_paths,path', test_stylish)
 def test_stylish(file_paths, right_result):
-    result = generate_diff(file_paths[0], file_paths[1], 'stylish')
+    result = generate_diff(file_paths[0], file_paths[1], 'flat')
     assert right_result == result
 
 
 @pytest.mark.parametrize('file_paths, path', test_plain)
 def test_plain(file_paths, right_result):
-    result = generate_diff(file_paths[0], file_paths[1], 'plain')
+    result = generate_diff(file_paths[0], file_paths[1], 'empty')
     assert right_result == result
