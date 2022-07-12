@@ -1,0 +1,10 @@
+Property 'fee' was updated. From false to 'fr'
+Property 'servers.place' was updated. From 'not home' to 'home'
+Property 'servers.values.asub_data' was removed
+Property 'servers.values.data' was added with value: [complex value]
+Property 'servers.values.second_data.iAWAWn_second' was added with value: [complex value]
+Property 'servers.values.second_data.third' was removed
+Property 'site.follow' was updated. From true to false
+Property 'site.setting_users.name' was updated. From 'sid' to 'sidor'
+Property 'site.setting_users.pos' was removed
+Property 'site.url' was updated. From [complex value] to 'supersite_superzone'

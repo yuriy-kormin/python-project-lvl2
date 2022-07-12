@@ -1,0 +1,48 @@
+{
+  - fee: false
+  + fee: fr
+    servers: {
+        name: alpha
+      - place: not home
+      + place: home
+        values: {
+          - asub_data: {
+                inner: key_old
+            }
+          + data: {
+                asub_data: {
+                    inner: {
+                        value: u
+                    }
+                }
+            }
+            second_data: {
+              + iAWAWn_second: {
+                    in_the_middle: {
+                        val: val_o
+                    }
+                }
+              - third: add
+            }
+        }
+    }
+    site: {
+        depend: none
+      - follow: true
+      + follow: false
+        protocol: https
+        setting_users: {
+            add_data: {
+                surname: ivanov
+            }
+          - name: sid
+          + name: sidor
+          - pos: manager
+        }
+      - url: {
+            vip: supersite_superzone
+        }
+      + url: supersite_superzone
+    }
+    type: org
+}

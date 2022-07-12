@@ -1,0 +1,168 @@
+[
+    {
+        "name": "site",
+        "children": [
+            {
+                "name": "follow",
+                "value": false,
+                "old": {
+                    "name": "follow",
+                    "value": true
+                },
+                "status": "updated"
+            },
+            {
+                "name": "url",
+                "value": "supersite_superzone",
+                "old": {
+                    "name": "url",
+                    "children": [
+                        {
+                            "name": "vip",
+                            "value": "supersite_superzone"
+                        }
+                    ]
+                },
+                "status": "updated"
+            },
+            {
+                "name": "protocol",
+                "value": "https",
+                "status": "equals"
+            },
+            {
+                "name": "depend",
+                "value": "none",
+                "status": "equals"
+            },
+            {
+                "name": "setting_users",
+                "children": [
+                    {
+                        "name": "name",
+                        "value": "sidor",
+                        "old": {
+                            "name": "name",
+                            "value": "sid"
+                        },
+                        "status": "updated"
+                    },
+                    {
+                        "name": "add_data",
+                        "children": [
+                            {
+                                "name": "surname",
+                                "value": "ivanov",
+                                "status": "equals"
+                            }
+                        ],
+                        "status": "equals"
+                    },
+                    {
+                        "name": "pos",
+                        "value": "manager",
+                        "status": "removed"
+                    }
+                ],
+                "status": "equals"
+            }
+        ],
+        "status": "equals"
+    },
+    {
+        "name": "servers",
+        "children": [
+            {
+                "name": "name",
+                "value": "alpha",
+                "status": "equals"
+            },
+            {
+                "name": "place",
+                "value": "home",
+                "old": {
+                    "name": "place",
+                    "value": "not home"
+                },
+                "status": "updated"
+            },
+            {
+                "name": "values",
+                "children": [
+                    {
+                        "name": "data",
+                        "children": [
+                            {
+                                "name": "asub_data",
+                                "children": [
+                                    {
+                                        "name": "inner",
+                                        "children": [
+                                            {
+                                                "name": "value",
+                                                "value": "u"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "status": "added"
+                    },
+                    {
+                        "name": "second_data",
+                        "children": [
+                            {
+                                "name": "iAWAWn_second",
+                                "children": [
+                                    {
+                                        "name": "in_the_middle",
+                                        "children": [
+                                            {
+                                                "name": "val",
+                                                "value": "val_o"
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "status": "added"
+                            },
+                            {
+                                "name": "third",
+                                "value": "add",
+                                "status": "removed"
+                            }
+                        ],
+                        "status": "equals"
+                    },
+                    {
+                        "name": "asub_data",
+                        "children": [
+                            {
+                                "name": "inner",
+                                "value": "key_old"
+                            }
+                        ],
+                        "status": "removed"
+                    }
+                ],
+                "status": "equals"
+            }
+        ],
+        "status": "equals"
+    },
+    {
+        "name": "fee",
+        "value": "fr",
+        "old": {
+            "name": "fee",
+            "value": false
+        },
+        "status": "updated"
+    },
+    {
+        "name": "type",
+        "value": "org",
+        "status": "equals"
+    }
+]

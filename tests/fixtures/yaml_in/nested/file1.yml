@@ -1,0 +1,36 @@
+{
+  "site": {
+    "follow": false,
+    "url": "supersite_superzone",
+    "protocol": "https",
+    "depend": "none",
+    "setting_users": {
+      "name": "sidor",
+      "add_data": {
+        "surname": "ivanov"
+      }
+    }
+  },
+  "servers": {
+    "name": "alpha",
+    "place": "home",
+    "values": {
+      "data": {
+        "asub_data": {
+          "inner": {
+            "value": "u"
+          }
+        }
+      },
+      "second_data": {
+        "iAWAWn_second": {
+          "in_the_middle": {
+            "val":"val_o"
+          }
+        }
+      }
+    }
+  },
+  "fee":"fr",
+  "type":"org"
+}

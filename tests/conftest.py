@@ -4,8 +4,8 @@ import os
 FIXTURES_PATH = 'fixtures'
 INPUT_JSON_FILE1 = 'file1.json'
 INPUT_JSON_FILE2 = 'file2.json'
-INPUT_YAML_FILE1 = 'file1.yaml'
-INPUT_YAML_FILE2 = 'file2.yaml'
+INPUT_YAML_FILE1 = 'file1.yml'
+INPUT_YAML_FILE2 = 'file2.yml'
 OUTPUT = 'output'
 OUTPUT_REVERSED = 'output_r'
 FORMATTERS = ('stylish', 'plain')

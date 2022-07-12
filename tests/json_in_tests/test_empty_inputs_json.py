@@ -9,5 +9,5 @@ from gendiff import generate_diff
                                         {"file_type": 'empty', "formatter": 'json'},
                                         {"file_type": 'empty', "formatter": 'json', 'reverse': True}
                                         ), indirect=True)
-def test_empty(get_result):
+def test_empty_json(get_result):
     assert get_result['result'] == generate_diff(get_result['paths'][0], get_result['paths'][1], get_result['formatter'])
