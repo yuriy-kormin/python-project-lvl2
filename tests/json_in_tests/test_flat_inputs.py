@@ -2,11 +2,11 @@ import pytest
 from gendiff import generate_diff
 
 
-@pytest.mark.parametrize('get_result', ({"file_type": 'flat', "formatter": 'stylish', 'reverse': False},
+@pytest.mark.parametrize('get_result', ({"file_type": 'flat', "formatter": 'stylish'},
                                         {"file_type": 'flat', "formatter": 'stylish', 'reverse': True},
-                                        {"file_type": 'flat', "formatter": 'plain', 'reverse': False},
+                                        {"file_type": 'flat', "formatter": 'plain'},
                                         {"file_type": 'flat', "formatter": 'plain', 'reverse': True},
-                                        {"file_type": 'flat', "formatter": 'json', 'reverse': False},
+                                        {"file_type": 'flat', "formatter": 'json'},
                                         {"file_type": 'flat', "formatter": 'json', 'reverse': True}
                                         ), indirect=True)
 def test_flat(get_result):

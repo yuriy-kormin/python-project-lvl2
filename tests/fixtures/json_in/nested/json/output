@@ -1,0 +1,155 @@
+[
+    {
+        "name": "common",
+        "children": [
+            {
+                "name": "follow",
+                "value": false,
+                "status": "added"
+            },
+            {
+                "name": "setting1",
+                "value": "Value 1",
+                "status": "equals"
+            },
+            {
+                "name": "setting3",
+                "value": null,
+                "old": {
+                    "name": "setting3",
+                    "value": true
+                },
+                "status": "updated"
+            },
+            {
+                "name": "setting4",
+                "value": "blah blah",
+                "status": "added"
+            },
+            {
+                "name": "setting5",
+                "children": [
+                    {
+                        "name": "key5",
+                        "value": "value5"
+                    }
+                ],
+                "status": "added"
+            },
+            {
+                "name": "setting6",
+                "children": [
+                    {
+                        "name": "key",
+                        "value": "value",
+                        "status": "equals"
+                    },
+                    {
+                        "name": "ops",
+                        "value": "vops",
+                        "status": "added"
+                    },
+                    {
+                        "name": "doge",
+                        "children": [
+                            {
+                                "name": "wow",
+                                "value": "so much",
+                                "old": {
+                                    "name": "wow",
+                                    "value": ""
+                                },
+                                "status": "updated"
+                            }
+                        ],
+                        "status": "equals"
+                    }
+                ],
+                "status": "equals"
+            },
+            {
+                "name": "setting2",
+                "value": 200,
+                "status": "removed"
+            }
+        ],
+        "status": "equals"
+    },
+    {
+        "name": "group1",
+        "children": [
+            {
+                "name": "foo",
+                "value": "bar",
+                "status": "equals"
+            },
+            {
+                "name": "baz",
+                "value": "bars",
+                "old": {
+                    "name": "baz",
+                    "value": "bas"
+                },
+                "status": "updated"
+            },
+            {
+                "name": "nest",
+                "value": "str",
+                "old": {
+                    "name": "nest",
+                    "children": [
+                        {
+                            "name": "key",
+                            "value": "value"
+                        }
+                    ]
+                },
+                "status": "updated"
+            }
+        ],
+        "status": "equals"
+    },
+    {
+        "name": "group3",
+        "children": [
+            {
+                "name": "deep",
+                "children": [
+                    {
+                        "name": "id",
+                        "children": [
+                            {
+                                "name": "number",
+                                "value": 45
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "fee",
+                "value": 100500
+            }
+        ],
+        "status": "added"
+    },
+    {
+        "name": "group2",
+        "children": [
+            {
+                "name": "abc",
+                "value": 12345
+            },
+            {
+                "name": "deep",
+                "children": [
+                    {
+                        "name": "id",
+                        "value": 45
+                    }
+                ]
+            }
+        ],
+        "status": "removed"
+    }
+]
