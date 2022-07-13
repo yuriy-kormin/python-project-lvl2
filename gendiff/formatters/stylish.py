@@ -30,7 +30,7 @@ def get_indent(property, level, last=False):
         return cur_indent + indents[cur_status]
     # this block executes, if value was updated
     old_record = [get_old_record(property)]
-    result = make_block(old_record, level-1)
+    result = make_block(old_record, level - 1)
     result.append(cur_indent + indents[statuses['+']])
     return "\n".join(result)
 
@@ -46,7 +46,7 @@ def make_block(data, level):
             else:
                 result.append(make_string(child, level, first=True))
                 result.extend(make_block(child, level))
-                result.append(make_string(data, level+1, last=True))
+                result.append(make_string(data, level + 1, last=True))
     return result
 
 

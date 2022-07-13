@@ -44,7 +44,7 @@ def make_format(data, path=''):
     result = []
     for child in get_children(data, sorted_=True):
         if is_dir(child):
-            child_output = make_format(child, path + get_name(child)+'.')
+            child_output = make_format(child, path + get_name(child) + '.')
             if len(child_output):
                 result.append(child_output)
         if get_status(child) in plain_statuses:
