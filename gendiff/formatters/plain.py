@@ -16,6 +16,8 @@ def make_format_out(value):
         return str(value).lower()
     elif value is None:
         return 'null'
+    elif isinstance(value, int):
+        return str(value)
     return '\'' + str(value) + '\''
 
 

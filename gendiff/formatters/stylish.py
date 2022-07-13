@@ -63,4 +63,3 @@ def normalize_output(data):
     elif data is None:
         return 'null'
     return str(data)
-    # return str(answer)

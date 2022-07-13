@@ -12,7 +12,7 @@
         setting6: {
             doge: {
               - wow: so much
-              + wow:
+              + wow: 
             }
             key: value
           - ops: vops
