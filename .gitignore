@@ -10,3 +10,5 @@ coverage.xml
 .idea/
 /*.json
 /tests/fixtures/tmp/
+/file1.yml
+/file2.yml

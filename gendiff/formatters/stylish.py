@@ -16,9 +16,9 @@ def make_string(data, level, first=False, last=False):
     if last:
         return get_indent(data, level, last) + '}'
     value = normalize_output(get_value(data))
-    value = " "+value if len(value) else value
+    # value = " "+str(value) if value else value
     name = get_name(data)
-    return get_indent(data, level) + name + ':' + value
+    return get_indent(data, level) + name + ': ' + value
 
 
 def get_indent(property, level, last=False):
@@ -58,10 +58,9 @@ def make_format(data):
 
 
 def normalize_output(data):
-    if type(data) is bool:
-        answer = str(data).lower()
+    if isinstance(data, bool):
+        return str(data).lower()
     elif data is None:
-        answer = 'null'
-    else:
-        answer = str(data)
-    return answer if len(answer) else ''
+        return 'null'
+    return str(data)
+    # return str(answer)
