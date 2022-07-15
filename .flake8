@@ -14,7 +14,7 @@ isort-show-traceback = True
 # ignore =
 
 per-file-ignores =
-  # it is possibble to have prints in scripts
+  # it is possible to have prints in scripts
   hexlet_python_package/scripts/*.py: WPS421
 
 [tool:pytest]
