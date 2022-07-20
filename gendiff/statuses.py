@@ -2,5 +2,7 @@ statuses = {
     '+': 'added',
     '-': 'removed',
     '=': 'equals',
-    '!=': 'updated'
+    '!=': 'updated',
+    '>': 'nested',
+    '/': 'root'
 }
