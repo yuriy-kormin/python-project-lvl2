@@ -1,5 +1,5 @@
-from gendiff.inner_format import get_status, get_name, get_children, \
-    is_record, is_dir, get_value, get_old_record
+# from gendiff.inner_format import get_status, get_name, get_children, \
+#     is_record, is_dir, get_value, get_old_record
 from gendiff.statuses import statuses
 
 indents = {
