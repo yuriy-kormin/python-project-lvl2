@@ -2,6 +2,13 @@ from gendiff.statuses import statuses
 from gendiff.tree import get_node_name, get_node_type, get_node_children, get_node_value
 
 
+plain_statuses = {
+    statuses['+']: 'added',
+    statuses['-']: 'removed',
+    statuses['!=']: 'updated'
+}
+
+
 def make_format(data, path=''):
     result = []
     for child in get_node_children(data):
@@ -17,12 +24,14 @@ def make_format(data, path=''):
 def make_string(node, path=''):
     cur_status = get_node_type(node)
     name = path + get_node_name(node)
-    answer = 'Property \'' + name + '\' was ' + cur_status
-    if cur_status == statuses['+']:
-        answer += ' with value: ' + normalize(get_node_value(node))
-    elif cur_status == statuses['!=']:
-        new_value, old_value = tuple(map(normalize, get_node_value(node)))
-        answer += '. From ' + old_value + ' to ' + new_value
+    answer = ''
+    if cur_status in plain_statuses:
+        answer = 'Property \'' + name + '\' was ' + cur_status
+        if cur_status == statuses['+']:
+            answer += ' with value: ' + normalize(get_node_value(node))
+        elif cur_status == statuses['!=']:
+            new_value, old_value = tuple(map(normalize, get_node_value(node)))
+            answer += '. From ' + old_value + ' to ' + new_value
     return answer
 
 
