@@ -1,41 +1,31 @@
 from gendiff.statuses import statuses
+#
+# def add_value(node):
+
 
 
 def build_diff(data1, data2):
     result = []
     keys = data1.keys() | data2.keys()
     for key in sorted(keys):
+        cur_node = {'key': key}
         if key not in data2:
-            result.append({
-                'key': key,
-                'type': statuses['-'],
-                'value': data1[key]
-            })
+            cur_node['type'] = statuses['-']
+            cur_node['value'] = data1[key]
         elif key not in data1:
-            result.append({
-                'key': key,
-                'type': statuses['+'],
-                'value': data2[key]
-            })
+            cur_node['type'] = statuses['+']
+            cur_node['value'] = data2[key]
         elif type(data1[key]) == dict and type(data2[key]) == dict:
-            result.append({
-                'key': key,
-                'type': statuses['>'],
-                'children': build_diff(data1[key], data2[key])
-            }),
+            cur_node['type'] = statuses['>']
+            cur_node['children'] = build_diff(data1[key], data2[key])
         elif data1[key] == data2[key]:
-            result.append({
-                'key': key,
-                'type': statuses['='],
-                'value': data1[key]
-            })
+            cur_node['type'] = statuses['=']
+            cur_node['value'] = data1[key]
         else:
-            result.append({
-                'key': key,
-                'type': statuses['!='],
-                'value': data2[key],
-                'old': data1[key]
-            })
+            cur_node['type'] = statuses['!=']
+            cur_node['value'] = data1[key]
+            cur_node['new_value'] = data2[key]
+        result.append(cur_node)
     return result
 
 
@@ -62,7 +52,7 @@ def get_node_value(node):
     if isinstance(node, dict):
         if get_node_type(node) == statuses['!='] \
                 and 'value' in node.keys() \
-                and 'old' in node.keys():
-            return node['value'], node['old']
+                and 'new_value' in node.keys():
+            return node['value'], node['new_value']
         elif 'value' in node.keys():
             return node['value']
