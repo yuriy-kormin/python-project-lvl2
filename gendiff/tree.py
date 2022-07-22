@@ -1,7 +1,4 @@
 from gendiff.statuses import statuses
-#
-# def add_value(node):
-
 
 
 def build_diff(data1, data2):
