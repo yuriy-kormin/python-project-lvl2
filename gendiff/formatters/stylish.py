@@ -1,5 +1,6 @@
 from gendiff.statuses import statuses
-from gendiff.tree import get_node_name, get_node_type, get_node_children, get_node_value
+from gendiff.tree import get_node_name, get_node_type, get_node_children, \
+    get_node_value
 
 indents = {
     statuses['+']: '  + ',
@@ -58,11 +59,13 @@ def normalize_output(data, level):
         result = ['{']
         for key in data.keys():
             if isinstance(data[key], dict):
-                result.append(indents[statuses['=']] * (level+1) + \
-                              key + ": " + normalize_output(data[key], (level)))
+                result.append(
+                    indents[statuses['=']] * (level + 1) +
+                    key + ": " + normalize_output(data[key], (level)))
             else:
-                result.append(indents[statuses['=']] * (level+1) + \
-                              key + ': ' + normalize_output(data[key],(level-1)))
+                result.append(
+                    indents[statuses['=']] * (level + 1) + key + ': ' +
+                    normalize_output(data[key], (level - 1)))
         result.append(indents[statuses['=']] * level + '}')
         return "\n".join(result)
     return str(data)

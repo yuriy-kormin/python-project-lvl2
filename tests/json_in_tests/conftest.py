@@ -33,4 +33,3 @@ def file_content(path):
 def get_inputs(fixtures_path, input_file_names, request):
     workdir = os.path.join(fixtures_path, JSON_IN_DIR, request.param)
     return [os.path.join(workdir, i) for i in input_file_names['json']]
-
