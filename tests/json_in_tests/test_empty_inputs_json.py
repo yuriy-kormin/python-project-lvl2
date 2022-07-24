@@ -14,9 +14,9 @@ def test_empty_jsons(get_result):
                                                  get_result['paths'][1],
                                                  get_result['formatter'])
 
-
-@pytest.mark.json
-@pytest.mark.parametrize('get_inputs', ['empty'], indirect=True)
-def test_json_output(get_inputs):
-    # print(generate_diff(get_inputs[0], get_inputs[1], 'json'))
-    assert isinstance(generate_diff(get_inputs[0], get_inputs[1], 'json'), dict)
+#
+# @pytest.mark.json
+# @pytest.mark.parametrize('get_inputs', ['empty'], indirect=True)
+# def test_json_output(get_inputs):
+#     # print(generate_diff(get_inputs[0], get_inputs[1], 'json'))
+#     assert isinstance(generate_diff(get_inputs[0], get_inputs[1], 'json'), dict)
