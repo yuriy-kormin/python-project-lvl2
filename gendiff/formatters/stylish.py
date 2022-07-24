@@ -9,7 +9,6 @@ indents = {
 
 
 def make_format(data):
-    # print(data)
     children = get_node_children(data)
     result = []
     result.extend(make_block(children))
