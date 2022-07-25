@@ -36,9 +36,9 @@ def make_string(child, level):
     status = get_node_type(child)
     answer = ''
     if status in indents.keys():
-        answer += level * indents[statuses['=']] + indents[status] + \
-                  get_node_name(child) + ': ' + \
-                  normalize_output(get_node_value(child), level)
+        answer += level * indents[statuses['=']] + indents[status] \
+            + get_node_name(child) + ': ' + normalize_output(
+                                        get_node_value(child), level)
     elif status == statuses['!=']:
         child_copy = child.copy()
         child_copy['type'] = statuses['-']
@@ -60,12 +60,13 @@ def normalize_output(data, level):
         for key in data.keys():
             if isinstance(data[key], dict):
                 result.append(
-                    indents[statuses['=']] * (level + 1) +
-                    key + ": " + normalize_output(data[key], (level)))
+                    indents[statuses['=']] * (level + 1) + key +
+                    ": " + normalize_output(data[key], level)
+                )
             else:
                 result.append(
-                    indents[statuses['=']] * (level + 1) + key + ': ' +
-                    normalize_output(data[key], (level - 1)))
+                    indents[statuses['=']] * (level + 1) + key + ': '
+                    + normalize_output(data[key], (level - 1)))
         result.append(indents[statuses['=']] * level + '}')
         return "\n".join(result)
     return str(data)

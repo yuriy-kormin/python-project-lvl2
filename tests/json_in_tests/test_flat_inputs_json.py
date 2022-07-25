@@ -4,11 +4,9 @@ from gendiff import generate_diff
 
 @pytest.mark.parametrize('get_result', (
         {"file_type": 'flat', "formatter": 'stylish'},
-        {"file_type": 'flat', "formatter": 'stylish',
-         'reverse': True},
+        {"file_type": 'flat', "formatter": 'stylish', 'reverse': True},
         {"file_type": 'flat', "formatter": 'plain'},
-        {"file_type": 'flat', "formatter": 'plain',
-         'reverse': True}
+        {"file_type": 'flat', "formatter": 'plain', 'reverse': True}
         ), indirect=True)
 def test_flat_jsons(get_result):
     assert get_result['result'] == generate_diff(get_result['paths'][0],
