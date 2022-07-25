@@ -1,4 +1,3 @@
-# from gendiff.inner_format import make_inner_format, find_diff
 from gendiff.file_parser import get_data
 from gendiff.tree import build
 from gendiff.formatters.formatters import FORMATS
