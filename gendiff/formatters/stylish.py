@@ -16,11 +16,15 @@ def make_format(data):
     return "\n".join(result)
 
 
+def make_indent(level):
+    return level * indents[statuses['=']]
+
+
 def make_block(childrens, level=0, name=''):
     if not len(name):
         result = ['{']
     else:
-        result = [level * indents[statuses['=']] + name + ': {']
+        result = [make_indent(level) + name + ': {']
     for child in childrens:
         child_type = get_node_type(child)
         if child_type != statuses['>']:
@@ -28,7 +32,7 @@ def make_block(childrens, level=0, name=''):
         else:
             result.extend(make_block(get_node_children(child), level + 1,
                                      get_node_name(child)))
-    result.append(level * indents[statuses['=']] + '}')
+    result.append(make_indent(level) + '}')
     return result
 
 
@@ -36,9 +40,8 @@ def make_string(child, level):
     status = get_node_type(child)
     answer = ''
     if status in indents.keys():
-        answer += level * indents[statuses['=']] + indents[status] \
-            + get_node_name(child) + ': ' + normalize_output(
-                                        get_node_value(child), level)
+        answer += make_indent(level) + indents[status] + get_node_name(child)\
+            + ': ' + normalize_output(get_node_value(child), level)
     elif status == statuses['!=']:
         child_copy = child.copy()
         child_copy['type'] = statuses['-']
@@ -59,14 +62,13 @@ def normalize_output(data, level):
         result = ['{']
         for key in data.keys():
             if isinstance(data[key], dict):
-                result.append(
-                    indents[statuses['=']] * (level + 1) + key +
-                    ": " + normalize_output(data[key], level)
-                )
+                inner_dict = make_indent(level + 1)\
+                    + key + ": " + normalize_output(data[key], level)
+                result.append(inner_dict)
             else:
-                result.append(
-                    indents[statuses['=']] * (level + 1) + key + ': '
-                    + normalize_output(data[key], (level - 1)))
-        result.append(indents[statuses['=']] * level + '}')
+                cur_val = make_indent(level + 1) + key + ': '\
+                    + normalize_output(data[key], (level - 1))
+                result.append(cur_val)
+        result.append(make_indent(level) + '}')
         return "\n".join(result)
     return str(data)
