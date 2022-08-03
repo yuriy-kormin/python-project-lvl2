@@ -11,11 +11,10 @@ def get_file_format(file_path):
 
 def parse(data, format_):
     if format_ in ('yaml', 'yml'):
-        parse_module = yaml.safe_load
+        return yaml.safe_load
     elif format_ == 'json':
-        parse_module = json.load
+        return json.load
     raise ParseException('Unsupported file format')
-    return parse_module(data)
 
 
 def get_data(file_path):
