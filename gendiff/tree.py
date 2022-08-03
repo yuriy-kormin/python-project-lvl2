@@ -2,24 +2,37 @@ def build_diff(data1, data2):
     result = []
     keys = data1.keys() | data2.keys()
     for key in sorted(keys):
-        cur_node = {'key': key}
         if key not in data2:
-            cur_node['type'] = 'removed'
-            cur_node['value'] = data1[key]
+            result.append({
+                'key': key,
+                'type': 'removed',
+                'value': data1[key]
+            })
         elif key not in data1:
-            cur_node['type'] = 'added'
-            cur_node['value'] = data2[key]
+            result.append({
+                'key': key,
+                'type': 'added',
+                'value': data2[key]
+            })
         elif type(data1[key]) == dict and type(data2[key]) == dict:
-            cur_node['type'] = 'nested'
-            cur_node['children'] = build_diff(data1[key], data2[key])
+            result.append({
+                'key': key,
+                'type': 'nested',
+                'children': build_diff(data1[key], data2[key])
+            })
         elif data1[key] == data2[key]:
-            cur_node['type'] = 'equals'
-            cur_node['value'] = data1[key]
+            result.append({
+                'key': key,
+                'type': 'equals',
+                'value': data1[key]
+            })
         else:
-            cur_node['type'] = 'updated'
-            cur_node['old_value'] = data1[key]
-            cur_node['new_value'] = data2[key]
-        result.append(cur_node)
+            result.append({
+                'key': key,
+                'type': 'updated',
+                'old_value': data1[key],
+                'new_value': data2[key]
+            })
     return result
 
 
