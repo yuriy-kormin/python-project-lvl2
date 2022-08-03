@@ -1,5 +1,5 @@
 import json
 
 
-def make_format(data):
+def render_json(data):
     return json.dumps(data, indent=4)
