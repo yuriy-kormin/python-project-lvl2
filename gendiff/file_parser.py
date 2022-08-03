@@ -1,17 +1,20 @@
 import json
-import yaml
 import os
+import yaml
+
+from pyparsing import ParseException
 
 
 def get_file_format(file_path):
-    return os.path.splitext(file_path)[1]
+    return os.path.splitext(file_path)[1][1:]
 
 
 def parse(data, format_):
-    if format_ == '.yaml' or format_ == '.yml':
+    if format_ in ('yaml', 'yml'):
         parse_module = yaml.safe_load
-    elif format_ == '.json':
+    elif format_ == 'json':
         parse_module = json.load
+    raise ParseException('Unsupported file format')
     return parse_module(data)
 
 
