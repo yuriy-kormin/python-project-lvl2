@@ -1,11 +1,10 @@
-from gendiff.statuses import statuses
 from gendiff.tree import get_node_name, get_node_type, get_node_children, \
     get_node_value
 
 indents = {
-    statuses['+']: '  + ',
-    statuses['-']: '  - ',
-    statuses['=']: '    ',
+    'added': '  + ',
+    'removed': '  - ',
+    'equals': '    ',
 }
 
 
@@ -17,7 +16,7 @@ def make_format(data):
 
 
 def make_indent(level):
-    return level * indents[statuses['=']]
+    return level * indents['equals']
 
 
 def make_block(childrens, level=0, name=''):
@@ -27,7 +26,7 @@ def make_block(childrens, level=0, name=''):
         result = [make_indent(level) + name + ': {']
     for child in childrens:
         child_type = get_node_type(child)
-        if child_type != statuses['>']:
+        if child_type != 'nested':
             result.append(make_string(child, level))
         else:
             result.extend(make_block(get_node_children(child), level + 1,
@@ -42,11 +41,11 @@ def make_string(child, level):
     if status in indents.keys():
         answer += make_indent(level) + indents[status] + get_node_name(child)\
             + ': ' + normalize_output(get_node_value(child), level)
-    elif status == statuses['!=']:
+    elif status == 'updated':
         child_copy = child.copy()
-        child_copy['type'] = statuses['-']
+        child_copy['type'] = 'removed'
         answer += make_string(child_copy, level) + '\n'
-        child_copy['type'] = statuses['+']
+        child_copy['type'] = 'added'
         child_copy['value'] = child.pop('new_value')
         answer += make_string(child_copy, level)
     return answer
