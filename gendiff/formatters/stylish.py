@@ -39,15 +39,16 @@ def make_string(child, level):
     status = get_node_type(child)
     answer = ''
     if status in indents.keys():
-        answer += make_indent(level) + indents[status] + get_node_name(child)\
+        answer += make_indent(level) + indents[status] + get_node_name(child) \
             + ': ' + normalize_output(get_node_value(child), level)
     elif status == 'updated':
         child_copy = child.copy()
-        child_copy['type'] = 'removed'
-        answer += make_string(child_copy, level) + '\n'
-        child_copy['type'] = 'added'
-        child_copy['value'] = child.pop('new_value')
-        answer += make_string(child_copy, level)
+        for cur_value in ('old_value', 'new_value'):
+            child['type'] = 'removed' if cur_value == 'old_value' else 'added'
+            child['value'] = child.pop(cur_value)
+            answer += make_string(child, level)
+            answer += '\n' if cur_value == 'old_value' else ''
+        child = child_copy.copy()
     return answer
 
 
@@ -61,11 +62,11 @@ def normalize_output(data, level):
         result = ['{']
         for key in data.keys():
             if isinstance(data[key], dict):
-                inner_dict = make_indent(level + 1)\
+                inner_dict = make_indent(level + 1) \
                     + key + ": " + normalize_output(data[key], level)
                 result.append(inner_dict)
             else:
-                cur_val = make_indent(level + 1) + key + ': '\
+                cur_val = make_indent(level + 1) + key + ': ' \
                     + normalize_output(data[key], (level - 1))
                 result.append(cur_val)
         result.append(make_indent(level) + '}')

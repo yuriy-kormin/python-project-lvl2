@@ -17,7 +17,7 @@ def build_diff(data1, data2):
             cur_node['value'] = data1[key]
         else:
             cur_node['type'] = 'updated'
-            cur_node['value'] = data1[key]
+            cur_node['old_value'] = data1[key]
             cur_node['new_value'] = data2[key]
         result.append(cur_node)
     return result
@@ -45,8 +45,8 @@ def get_node_type(node):
 def get_node_value(node):
     if isinstance(node, dict):
         if get_node_type(node) == 'updated' \
-                and 'value' in node.keys() \
+                and 'old_value' in node.keys() \
                 and 'new_value' in node.keys():
-            return node['value'], node['new_value']
+            return node['old_value'], node['new_value']
         elif 'value' in node.keys():
             return node['value']
