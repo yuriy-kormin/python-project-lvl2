@@ -3,11 +3,14 @@ import os
 
 JSON_IN_DIR = 'json_in'
 YAML_IN_DIR = 'yaml_in'
+UNSUPPORTED_IN_DIR = 'unsupported_in'
 FIXTURES_PATH = 'fixtures'
 INPUT_JSON_FILE1 = 'file1.json'
 INPUT_JSON_FILE2 = 'file2.json'
 INPUT_YAML_FILE1 = 'file1.yml'
 INPUT_YAML_FILE2 = 'file2.yml'
+INPUT_UNSUPPORTED_FILE1 = 'file1.jison'
+INPUT_UNSUPPORTED_FILE2 = 'file2.xml'
 OUTPUT = 'output'
 OUTPUT_REVERSED = 'output_r'
 FORMATTERS = ('stylish', 'plain')
@@ -22,7 +25,8 @@ def fixtures_path():
 def input_file_names():
     return {
         'json': (INPUT_JSON_FILE1, INPUT_JSON_FILE2),
-        'yaml': (INPUT_YAML_FILE1, INPUT_YAML_FILE2)
+        'yaml': (INPUT_YAML_FILE1, INPUT_YAML_FILE2),
+        'unsupported': (INPUT_UNSUPPORTED_FILE1, INPUT_UNSUPPORTED_FILE2)
     }
 
 
@@ -39,6 +43,11 @@ def formatters():
 @pytest.fixture
 def json_in():
     return JSON_IN_DIR
+
+
+@pytest.fixture
+def unsupported_in():
+    return UNSUPPORTED_IN_DIR
 
 
 @pytest.fixture

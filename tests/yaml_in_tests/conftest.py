@@ -1,8 +1,6 @@
 import pytest
 import os
 
-YAML_IN_DIR = 'yaml_in'
-
 
 @pytest.fixture
 def get_result(fixtures_path, yaml_in, input_file_names, output_files, request):

@@ -1,8 +1,6 @@
 import pytest
 import os
 
-# JSON_IN_DIR = 'json_in'
-
 
 @pytest.fixture
 def get_result(fixtures_path, input_file_names, output_files, json_in, request):
