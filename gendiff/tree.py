@@ -38,28 +38,3 @@ def build_diff(data1, data2):
 
 def build(data1, data2):
     return {'type': 'root', 'children': build_diff(data1, data2)}
-
-
-def get_node_name(node):
-    if isinstance(node, dict) and 'key' in node.keys():
-        return node['key']
-
-
-def get_node_children(node):
-    if isinstance(node, dict) and 'children' in node.keys():
-        return node['children']
-
-
-def get_node_type(node):
-    if isinstance(node, dict) and 'type' in node.keys():
-        return node['type']
-
-
-def get_node_value(node):
-    if isinstance(node, dict):
-        if get_node_type(node) == 'updated' \
-                and 'old_value' in node.keys() \
-                and 'new_value' in node.keys():
-            return node['old_value'], node['new_value']
-        elif 'value' in node.keys():
-            return node['value']
