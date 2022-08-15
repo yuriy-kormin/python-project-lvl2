@@ -24,6 +24,7 @@ def _node_processing(node, path=''):
         return result
     elif node_type == 'updated':
         return f"{result}. From {formatted_value1} to {formatted_value2}"
+    raise ValueError(f'Unsupported node type: {node_type}')
 
 
 def _to_str(value):
