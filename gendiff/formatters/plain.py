@@ -15,15 +15,16 @@ def _node_processing(node, path=''):
             lambda child: _node_processing(child), children))
         return '\n'.join(lines)
     elif node_type == 'nested':
-        lines = filter(None, map(
-            lambda child: _node_processing(child, f"{property_path}."), children))
+        lines = filter(None,
+                       map(lambda child: _node_processing(
+                           child, f"{property_path}."), children))
         return '\n'.join(lines)
     elif node_type == 'added':
         return f"{result} with value: {formatted_value}"
     elif node_type == 'removed':
         return result
     elif node_type == 'updated':
-        print (formatted_value1)
+        print(formatted_value1)
         return f"{result}. From {formatted_value1} to {formatted_value2}"
     elif node_type != 'equals':
         raise ValueError(f'Unsupported node type: {node_type}')
