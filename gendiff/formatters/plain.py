@@ -24,7 +24,6 @@ def _node_processing(node, path=''):
     elif node_type == 'removed':
         return result
     elif node_type == 'updated':
-        print(formatted_value1)
         return f"{result}. From {formatted_value1} to {formatted_value2}"
     elif node_type != 'equals':
         raise ValueError(f'Unsupported node type: {node_type}')
