@@ -5,6 +5,7 @@
 [![linter-run](https://github.com/yuriy-kormin/python-project-lvl2/actions/workflows/linter-run.yml/badge.svg)](https://github.com/yuriy-kormin/python-project-lvl2/actions/workflows/linter-run.yml)
 <a href="https://codeclimate.com/github/yuriy-kormin/python-project-lvl2/maintainability"><img src="https://api.codeclimate.com/v1/badges/7f241587067d2985f1dc/maintainability" /></a>
 
+<<<<<<< HEAD
 It's a simple CLI utility to find difference between 2 files.
 It worked with .json and .yml formats. Outputs can be set to plain, stylish or json 
 
@@ -22,3 +23,6 @@ It worked with .json and .yml formats. Outputs can be set to plain, stylish or j
 [![asciicast](https://asciinema.org/a/508203.svg)](https://asciinema.org/a/508203)
 #### JSON output example
 [![asciicast](https://asciinema.org/a/508205.svg)](https://asciinema.org/a/508205)
+=======
+[preview](https://task-manager.up.railway.app/)
+>>>>>>> 9a88a95 (modify readme)
