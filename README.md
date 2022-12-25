@@ -5,14 +5,13 @@
 [![linter-run](https://github.com/yuriy-kormin/python-project-lvl2/actions/workflows/linter-run.yml/badge.svg)](https://github.com/yuriy-kormin/python-project-lvl2/actions/workflows/linter-run.yml)
 <a href="https://codeclimate.com/github/yuriy-kormin/python-project-lvl2/maintainability"><img src="https://api.codeclimate.com/v1/badges/7f241587067d2985f1dc/maintainability" /></a>
 
-## Stack
+#### Stack
 ![Python](https://img.shields.io/badge/python-blue?style=plastic)
 ![pytest](https://img.shields.io/badge/pytest-success?style=plastic)
 ![poetry](https://img.shields.io/badge/poetry-blueviolet?style=plastic)
 ![poetry](https://img.shields.io/badge/argparse-lightgrey?style=plastic)
 
-
-
+### About
 It's a simple CLI utility to find difference between 2 files. It also supports nested data structures.
 
 Analizing files formats:  
