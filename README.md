@@ -6,9 +6,9 @@
 <a href="https://codeclimate.com/github/yuriy-kormin/python-project-lvl2/maintainability"><img src="https://api.codeclimate.com/v1/badges/7f241587067d2985f1dc/maintainability" /></a>
 
 
-It's a simple CLI utility to find difference between 2 files.
+It's a simple CLI utility to find difference between 2 files. It also supports nested data structures.
 
-Analizing files can be:
+Analizing files formats:  
   - .json 
   - .yml 
 
@@ -22,12 +22,29 @@ Analizing files can be:
   - Comparing data and find differences
   - Based on differences, building working result in selected format (default is stylish) 
 
-The program process is based on a single internal representation format, which will be the same regardless of the format of the input files.  
+The working process is based on a single internal representation format, which will be the same regardless of the format of the input files.  
 Thanks to this approach, it is possible to add additional reading formats without significantly modifying the code.  
 The same way is used to display the result.
 
-## INSTALLATION 
-Utility using poetry packet manager
+## Prepare for installation
+These tools must be configured on your system:
+ - [git](https://github.com/git-guides/install-git)
+ - [python](https://www.python.org/)
+ - [poetry](https://python-poetry.org/docs/)
+ - [pip](https://pip.pypa.io/en/stable/)
+
+## Installation
+At first point, poetry will download and install all the necessary packages to build the utility
+
+    git clone https://github.com/yuriy-kormin/python-project-lvl2.git
+    cd python-project-lvl2
+    make install
+
+The second step is to build and install the package
+
+    make build
+    pip install dist/hexlet_code-0.1.0-py3-none-any.whl
+
 [![asciicast](https://asciinema.org/a/508199.svg)](https://asciinema.org/a/508199)
 
 ## Examples of using
@@ -37,9 +54,10 @@ Utility using poetry packet manager
 [![asciicast](https://asciinema.org/a/508194.svg)](https://asciinema.org/a/508194)
 #### Search diff with nested files
 [![asciicast](https://asciinema.org/a/508202.svg)](https://asciinema.org/a/508202)
+
+## Build result in different output format
+
 #### Plain output example
 [![asciicast](https://asciinema.org/a/508203.svg)](https://asciinema.org/a/508203)
 #### JSON output example
 [![asciicast](https://asciinema.org/a/508205.svg)](https://asciinema.org/a/508205)
-
-
