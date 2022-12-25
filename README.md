@@ -7,11 +7,29 @@
 
 
 It's a simple CLI utility to find difference between 2 files.
-It worked with .json and .yml formats. Outputs can be set to plain, stylish or json 
 
+Analizing files can be:
+  - .json 
+  - .yml 
+
+ Outputs variants: 
+  - plain
+  - stylish
+  - json
+
+#### Utility processing includes three steps:
+  - Reading input files
+  - Comparing data and find differences
+  - Based on differences, building working result in selected format (default is stylish) 
+
+The program process is based on a single internal representation format, which will be the same regardless of the format of the input files.  
+Thanks to this approach, it is possible to add additional reading formats without significantly modifying the code.  
+The same way is used to display the result.
 
 ## INSTALLATION 
+Utility using poetry packet manager
 [![asciicast](https://asciinema.org/a/508199.svg)](https://asciinema.org/a/508199)
+
 ## Examples of using
 #### Search diff with flat files in .json format
 [![asciicast](https://asciinema.org/a/508190.svg)](https://asciinema.org/a/508190)
