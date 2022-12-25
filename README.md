@@ -1,4 +1,3 @@
-## Tests & statuses:
 [![Actions Status](https://github.com/yuriy-kormin/python-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/yuriy-kormin/python-project-lvl2/actions)
 [![test](https://github.com/yuriy-kormin/python-project-lvl2/actions/workflows/tests.yml/badge.svg)](https://github.com/yuriy-kormin/python-project-lvl2/actions/workflows/tests.yml)
 <a href="https://codeclimate.com/github/yuriy-kormin/python-project-lvl2/test_coverage"><img src="https://api.codeclimate.com/v1/badges/7f241587067d2985f1dc/test_coverage" /></a>
